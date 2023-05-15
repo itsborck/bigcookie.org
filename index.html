@@ -1,38 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Webpage</title>
+  <title>Big Cookie</title>
   <style>
     body {
+      background-color: #f5f5f5;
+      color: #333;
       font-family: Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       margin: 0;
-      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin-top: 20px;
     }
     
     h1 {
-      color: #333;
+      text-align: center;
+      margin-top: 20px;
     }
     
-    p {
-      color: #666;
-      line-height: 1.5;
+    img {
+      display: block;
+      margin: 0 auto;
+      max-width: 75%;
+    }
+    
+    .dark-mode {
+      background-color: #333;
+      color: #f5f5f5;
+    }
+    
+    .toggle-dark-mode {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: #f5f5f5;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to My Webpage</h1>
+  <div class="container">
+    <h1>Welcome to Big Cookie</h1>
+    <img src="bigcookieOG.jpg" alt="Big Cookie Image">
+  </div>
   
-  <p>This is a sample webpage created using HTML.</p>
+  <script>
+    function toggleDarkMode() {
+      var body = document.body;
+      body.classList.toggle("dark-mode");
+    }
+  </script>
   
-  <h2>About Me</h2>
-  
-  <p>My name is John Doe and I'm a web developer. I enjoy creating websites and learning new technologies.</p>
-  
-  <h2>Contact</h2>
-  
-  <ul>
-    <li>Email: john@example.com</li>
-    <li>Phone: 123-456-7890</li>
-  </ul>
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </body>
 </html>
