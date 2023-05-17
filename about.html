@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Cookie</title>
+  <meta content="Big Cookie" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org" property="og:url" />
+  <meta content="https://bigcookie.org/images/bigcookieOG.jpg" property="og:image" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link href="favicon.png" rel="icon"/>
+</head>
+
+<body>
+  <div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="https://discord.gg/eKgZTtv87V" target="_blank">Discord</a>
+    <a href="games.html">Games</a>
+  </div>
+  
+  <div class="container">
+    <h1>Welcome to Big Cookie</h1>
+    <img src="images/bigcookieOG.jpg" alt="Big Cookie Image">
+    <img src="images/cookie1.jpg" alt="Big Cookie Image">
+    <img src="images/cookie2.jpg" alt="Big Cookie Image">
+    <img src="images/cookie3.jpg" alt="Big Cookie Image">
+  </div>
+  
+  <script>
+    function toggleDarkMode() {
+      var body = document.body;
+      body.classList.toggle("dark-mode");
+    }
+  </script>
+  
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+</body>
+</html>
