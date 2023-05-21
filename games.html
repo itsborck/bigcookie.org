@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Games - Big Cookie</title>
   <meta content="Big Cookie Games" property="og:title" />
   <meta content="big cookie" property="og:description" />
@@ -13,12 +14,15 @@
 </head>
 
 <body>
-  <div class="navbar">
+  <div class="navbar" id="myNavbar">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="https://discord.gg/eKgZTtv87V" target="_blank">Discord</a>
     <a href="games.html">Games</a>
     <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
   </div>
   
   <div class="container">
@@ -45,6 +49,17 @@
     function toggleDarkMode() {
       var body = document.body;
       body.classList.toggle("dark-mode");
+    }
+  </script>
+  
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myNavbar");
+      if (x.className === "navbar") {
+        x.className += " responsive";
+      } else {
+        x.className = "navbar";
+      }
     }
   </script>
   

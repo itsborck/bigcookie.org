@@ -24,6 +24,15 @@ body {
   color: black;
 }
 
+.navbar a.active {
+  background-color: #04aa6d;
+  color: white;
+}
+
+.navbar .icon {
+  display: none;
+}
+
 .container {
   margin: auto;
   margin-top: 20px;
@@ -69,12 +78,6 @@ h1 {
 /* Responsive Styles */
 @media only screen and (max-width: 600px) {
 
-  .navbar a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-
   .container {
     max-width: 100%;
     padding: 0 20px;
@@ -89,5 +92,27 @@ h1 {
     font-size: 20px;
     padding: 12px 24px;
     margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar a:not(:first-child) {display: none;}
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar.responsive {position: relative;}
+  .navbar.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
   }
 }
