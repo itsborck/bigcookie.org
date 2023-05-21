@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Login/Register - Big Cookie</title>
+  <meta content="Login/Register - Big Cookie" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org" property="og:url" />
+  <meta content="https://bigcookie.org/images/bigcookieOG.jpg" property="og:image" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link href="favicon.png" rel="icon"/>
+</head>
+
+<body>
+  <div class="navbar" id="myNavbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="https://discord.gg/eKgZTtv87V" target="_blank">Discord</a>
+    <a href="games.html">Games</a>
+    <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
+    <a href="login.html" class="button">Login</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+
+  <div class="wrapper">
+    <div class="form-box login">
+        <h2>Login</h2>
+        <form action="#">
+            <div class="input-box">
+                <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" required>
+                <label>Email</label>
+            </div>
+            <div class="input-box">
+                <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" required>
+                <label>Password</label>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember Me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="login-register">
+                <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+            </div>
+        </form>
+    </div>
+    <div class="form-box register">
+        <h2>Register</h2>
+        <form action="#">
+            <div class="input-box">
+                <span class="icon"><i class="fa-solid fa-user"></i></span>
+                <input type="text" required>
+                <label>Username</label>
+            </div>
+            <div class="input-box">
+                <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" required>
+                <label>Email</label>
+            </div>
+            <div class="input-box">
+                <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" required>
+                <label>Password</label>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="login-register">
+                <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
