@@ -59,20 +59,10 @@ body {
   transform: translateX(0);
 }
 
-.wrapper.active .form-box.login {
-  transition: none;
-  transform: translateX(-400px);
-}
-
 .wrapper .form-box.register {
   position: absolute;
   transition: none;
   transform: translateX(400px);
-}
-
-.wrapper.active .form-box.register {
-  transition: transform 0.18s ease;
-  transform: translateX(0);
 }
 
 .form-box h2 {
