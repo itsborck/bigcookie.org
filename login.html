@@ -21,48 +21,19 @@
     <a href="games.html">Games</a>
     <a href="chat.html">Chat</a>
     <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
-    <a href="login.html" class="button">Login</a>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars"></i>
     </a>
   </div>
 
   <div class="wrapper">
-    <div class="form-box login">
-        <h2>Login</h2>
-        <form onsubmit="login(event)">
-            <div class="input-box">
-                <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                <input type="email" id="email" required>
-                <label>Email</label>
-            </div>
-            <div class="input-box">
-                <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                <input type="password" id="password" required>
-                <label>Password</label>
-            </div>
-            <div class="remember-forgot">
-                <label><input type="checkbox">Remember Me</label>
-                <a href="#">Forgot Password?</a>
-            </div>
-            <button class="btn" id="reg-login-btn">Login</button>
-            <div class="login-register">
-                <p>Don't have an account? <a href="register.html" class="register-link">Register</a></p>
-            </div>
-        </form>
-    </div>
+    <button class="btn" id="signInWithGoogle">Login with Google
+      <span class="icon"><i class="fa-brands fa-google"></i></span>
+    </button>
+  </div>
 
-  <script src="/javascript/login.js" type="module"></script>
-  <script>
-    function myFunction() {
-    var x = document.getElementById("myNavbar");
-    if (x.className === "navbar") {
-        x.className += " responsive";
-    } else {
-        x.className = "navbar";
-    }
-}
-  </script>
+  <script src="/scripts/login.js" type="module"></script>
+  <script src="/scripts/script.js"></script>
 
 </body>
 </html>
