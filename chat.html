@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Chat - Big Cookie</title>
@@ -12,7 +16,6 @@
   <link href="/css/style.css" rel="stylesheet" type="text/css"/>
   <link href="favicon.png" rel="icon"/>
 </head>
-
 <body>
   <div class="navbar" id="myNavbar">
     <a href="index.html">Home</a>
@@ -21,20 +24,130 @@
     <a href="games.html">Games</a>
     <a href="chat.html">Chat</a>
     <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
-    <a href="login.html" class="button">Login</a>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars"></i>
     </a>
   </div>
-  
-  <div class="container">
-    <h1>Big Cookie Chat</h1>
+
+  <h1>Big Cookie Chat</h1>
+
+  <!-- Login Form -->
+  <div id="loginDiv">
+    <h2>Login</h2>
+    <button class="btn" onclick="loginWithGoogle()">Login with Google <i class="fa-brands fa-google"></i></button>
+    <p id="loginError" style="color: red;"></p>
   </div>
-  
-  <div class="profile-name">Coming Soon 🤫</div>
-  
-  <script src="/scripts/chat.js"></script>
-  
-  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <!-- Chat Room -->
+  <div id="chatDiv" style="display: none;">
+    <h2>Welcome to the Chat Room</h2>
+    <div id="chatMessages"></div>
+    <input class="message" type="text" id="messageField" placeholder="Type your message" /><br>
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCl8FoWIZ5y7xg2rYKngokJRkglfuMfGQE",
+        authDomain: "big-cookie-login.firebaseapp.com",
+        projectId: "big-cookie-login",
+        storageBucket: "big-cookie-login.appspot.com",
+        messagingSenderId: "491961115933",
+        appId: "1:491961115933:web:a342e9957f4b1e960b6df4",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase references
+    const auth = firebase.auth();
+    const database = firebase.database().ref("chat");
+
+    // Login function
+    function login() {
+      const email = document.getElementById("emailField").value;
+      const password = document.getElementById("passwordField").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("loginDiv").style.display = "none";
+          document.getElementById("chatDiv").style.display = "block";
+          listenForMessages();
+        })
+        .catch(error => {
+          document.getElementById("loginError").innerText = error.message;
+        });
+    }
+
+    // Login with Google function
+    function loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      auth.signInWithPopup(provider)
+        .then(result => {
+          document.getElementById("loginDiv").style.display = "none";
+          document.getElementById("chatDiv").style.display = "block";
+          listenForMessages();
+        })
+        .catch(error => {
+          document.getElementById("loginError").innerText = error.message;
+        });
+    }
+
+    // Logout function
+    function logout() {
+      auth.signOut()
+        .then(() => {
+          document.getElementById("loginDiv").style.display = "block";
+          document.getElementById("chatDiv").style.display = "none";
+          document.getElementById("chatMessages").innerHTML = "";
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    }
+
+    // Send message function
+    function sendMessage() {
+      const message = document.getElementById("messageField").value;
+      const user = auth.currentUser;
+
+      if (message && user) {
+        const messageData = {
+          text: message,
+          timestamp: Date.now(),
+          userId: user.uid,
+          userName: user.displayName
+        };
+
+        database.push(messageData);
+        document.getElementById("messageField").value = "";
+      }
+    }
+
+    // Listen for new messages
+    function listenForMessages() {
+      database.on("child_added", snapshot => {
+        const message = snapshot.val();
+        const messageElement = document.createElement("p");
+        messageElement.innerHTML = `<strong>${message.userName}:</strong> ${message.text}`;
+        document.getElementById("chatMessages").appendChild(messageElement);
+      });
+    }
+
+    // Check if user is logged in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("loginDiv").style.display = "none";
+        document.getElementById("chatDiv").style.display = "block";
+        listenForMessages();
+      } else {
+        document.getElementById("loginDiv").style.display = "block";
+        document.getElementById("chatDiv").style.display = "none";
+        document.getElementById("chatMessages").innerHTML = "";
+      }
+    });
+  </script>
 </body>
 </html>
