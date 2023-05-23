@@ -50,9 +50,9 @@ body {
   overflow: hidden;
 }
 
-.message {
-  display: flex;
-  justify-content: center;
+.error {
+  color: red;
+  margin-top: 5px;
 }
 
 .btn {
