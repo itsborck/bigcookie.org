@@ -22,7 +22,6 @@
     <a href="about.html">About</a>
     <a href="https://discord.gg/eKgZTtv87V" target="_blank">Discord</a>
     <a href="games.html">Games</a>
-    <a href="chat.html">Chat</a>
     <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars"></i>
@@ -79,15 +78,51 @@
 
     // Function to restore user's authentication state
     function restoreAuthState() {
-      const storedUser = localStorage.getItem('chatAppUser');
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user && user.uid) {
-          return Promise.resolve(user);
+      return new Promise((resolve, reject) => {
+        const storedUser = localStorage.getItem('chatAppUser');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          if (user && user.uid) {
+            resolve(user);
+          } else {
+            resolve(null);
+          }
+        } else {
+          resolve(null);
         }
-      }
-      return Promise.resolve(null);
+      });
     }
+
+    // Set local persistence for authentication
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+    .then(() => {
+      // Check if a user is logged in and restore the authentication state
+      restoreAuthState()
+      .then(user => {
+        if (user) {
+          // User is logged in
+          firebase.auth().onAuthStateChanged(currentUser => {
+            if (currentUser) {
+              // User is still logged in
+              persistAuthState(currentUser);
+              listenForMessages();
+            } else {
+              // User is logged out
+              clearChatMessages();
+            }
+          });
+        } else {
+          // User is logged out
+          clearChatMessages();
+        }
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
 
     // Login with Google function
     function loginWithGoogle() {
@@ -134,6 +169,7 @@
         database.ref("messages").push(messageData)
           .then(() => {
             document.getElementById("messageField").value = "";
+            document.getElementById("errorMessage").style.display = "none";
           })
           .catch(error => {
             cosole.log(error.message);
@@ -147,41 +183,31 @@
     // Listen for new messages
     function listenForMessages() {
       if (!isMessageListenerAttached) {
-        isMessageListenerAttached = true;
+        messageRef = database.ref("messages");
+        
+        messageRef.on("child_added", snapshot => {
+          const messageData = snapshot.val();
+          const chatMessages = document.getElementById("chatMessages");
 
-        if (!messageRef) {
-          messageRef = database.ref("messages");
+          const messageElement = document.createElement("div");
+          messageElement.textContent = `${messageData.userName}: ${messageData.text}`;
+
+          chatMessages.appendChild(messageElement);
+
+          // Scroll to the latest message
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
         
-        
-          messageRef.on("child_added", snapshot => {
-            const message = snapshot.val();
-            const messageElement = document.createElement("p");
-            messageElement.innerHTML = `<strong>${message.userName}:</strong> ${message.text}`;
-            document.getElementById("chatMessages").appendChild(messageElement);
-          });
-        }
+        isMessageListenerAttached = true;
       }
     }
+
     // Clear chat messages
     function clearChatMessages() {
       document.getElementById("chatMessages").innerHTML = "";
     }
-
-    // Check if a user is logged in and restore the authentication state
-    restoreAuthState()
-      .then(user => {
-        if (user) {
-          // User is logged in
-          persistAuthState(user);
-          listenForMessages();
-        } else {
-          // User is logged out
-          clearChatMessages();
-        }
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
   </script>
+  <script src="/scripts/script.js"></script>
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </body>
 </html>
