@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Big Cookie Bingo</title>
+  <meta content="Bingo - Big Cookie" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org" property="og:url" />
+  <meta content="https://bigcookie.org/images/bigcookieOG.jpg" property="og:image" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="favicon.png" rel="icon"/>
+  <style>
+    .bingo-card {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      max-width: 515px;
+      margin: 0 auto; 
+    }
+    
+    .bingo-box {
+      position: relative;
+      width: 85px;
+      height: 85px;
+      border: 5px solid #000;
+      text-align: center;
+      color: #000;
+      font-size: 20px;
+      background-color: #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .bingo-box.selected:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(9, 255, 1, 0.349);
+      pointer-events: none;
+    }
+    
+    .bingo-box-inner {
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar" id="myNavbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="https://discord.gg/eKgZTtv87V" target="_blank">Discord</a>
+    <a href="games.html">Games</a>
+    <a href="http://play.bigcookie.org:7410" target="_blank">Map</a>
+    <a href="bingo.html">Bingo</a>
+    <a href="chat.html" class="button">Chat</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+  
+  <div class="container">
+    <h1>Big Cookie Bingo</h1>
+  </div>
+
+  <div class="row">
+    <div class="column">
+        <h1>Gavin</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+    <div class="column">
+        <h1>Luke</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+    <div class="column">
+        <h1>Brock</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+  </div>
+
+<!--ROW 2-->
+  <div class="row">
+    <div class="column">
+        <h1>Connor</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+    <div class="column">
+        <h1>Jordan</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+    <div class="column">
+        <h1>Eli</h1>
+        <div class="bingo-card">
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 1</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 2</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 3</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 4</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 5</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 6</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 7</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 8</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 9</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 10</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 11</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 12</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 13</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 14</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 15</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 16</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 17</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 18</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 19</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 20</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 21</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 22</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 23</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 24</div>
+            <div class="bingo-box" onclick="toggleSelected(this)">Text 25</div>
+          </div>
+    </div>
+  </div>
+  
+  <script>
+    function toggleSelected(element) {
+      element.classList.toggle("selected");
+    }
+  </script>
+  <script src="scripts/script.js"></script>
+
+  
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+</body>
+</html>
