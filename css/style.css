@@ -170,6 +170,10 @@ h1 {
     width: 100%;
     height: auto;
   }
+  .bingo-box {
+    width: 75px;
+    height: 75px;
+  }
 
   .row {
     display: flex;
