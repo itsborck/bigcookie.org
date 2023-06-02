@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Home - Big Cookie</title>
+  <meta content="Big Cookie" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org" property="og:url" />
+  <meta content="https://bigcookie.org/images/bigcookieOG.jpg" property="og:image" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <link href="css/esports.css" rel="stylesheet" type="text/css"/>
+  <link href="favicon.png" rel="icon"/>
+</head>
+<body>
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="#about">About</a>
+        <a href="#players">Players</a>
+        <a href="#coaches">Coaches</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#contact">Contact Us</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+  
+  <section id="home">
+    <div class="hero">
+      <h1>Welcome to Big Cookie eSports</h1>
+      <p>Join us in the thrilling world of competitive gaming!</p>
+      <a href="#contact" class="btn">Contact Us</a>
+    </div>
+  </section>
+  
+  <section id="about">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consectetur nunc nec est hendrerit, non gravida lorem pharetra.</p>
+    </div>
+  </section>
+  
+  <section id="players">
+    <div class="container">
+      <h2>Our Players</h2>
+      <div class="player-card">
+        <img src="player1.jpg" alt="Player 1">
+        <h3>Player 1</h3>
+        <p>Position: Support</p>
+      </div>
+      <div class="player-card">
+        <img src="player2.jpg" alt="Player 2">
+        <h3>Player 2</h3>
+        <p>Position: Jungle</p>
+      </div>
+      <div class="player-card">
+        <img src="player3.jpg" alt="Player 3">
+        <h3>Player 3</h3>
+        <p>Position: Mid</p>
+      </div>
+      <div class="player-card">
+        <img src="player4.jpg" alt="Player 4">
+        <h3>Player 4</h3>
+        <p>Position: ADC</p>
+      </div>
+      <div class="player-card">
+        <img src="player5.jpg" alt="Player 5">
+        <h3>Player 5</h3>
+        <p>Position: Top</p>
+      </div>
+    </div>
+  </section>
+  
+  <section id="schedule">
+    <div class="container">
+      <h2>Upcoming Schedule</h2>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Opponent</th>
+          <th>Time</th>
+          <th>Location</th>
+        </tr>
+        <tr>
+          <td>June 5</td>
+          <td>Team A</td>
+          <td>8:00 PM</td>
+          <td>Arena 1</td>
+        </tr>
+        <tr>
+          <td>June 12</td>
+          <td>Team B</td>
+          <td>7:30 PM</td>
+          <td>Arena 2</td>
+        </tr>
+        <tr>
+          <td>June 19</td>
+          <td>Team C</td>
+          <td>9:00 PM</td>
+          <td>Arena 3</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+  
+  <section id="contact">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Feel free to reach out to us for any inquiries or partnership opportunities.</p>
+      <form>
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="Email" required>
+        <textarea placeholder="Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="scripts/script.js"></script>
+
+<button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 Big Cookie eSports. All rights reserved.</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#players">Players</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
