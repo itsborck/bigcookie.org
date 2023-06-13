@@ -327,7 +327,8 @@ h2 {
     display: block;
   }
   
-  .dropdown {
+  .dropdown,
+  .social-icons {
     display: none;
   }
 
@@ -353,6 +354,12 @@ h2 {
   .navbar.responsive .dropdown {
     float: none;
     display: block;
+    text-align: left;
+  }
+
+  .navbar.responsive .social-icons {
+    float: none;
+    display: flex;
     text-align: left;
   }
 }
