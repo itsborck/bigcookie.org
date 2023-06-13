@@ -1,7 +1,10 @@
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
   background-color: #333;
   color: #ffffff;
-  font-family: Arial, sans-serif;
   transition: background-color 0.3s, color 0.3s;
   margin: 0;
   padding: 0;
@@ -219,7 +222,7 @@ h2 {
 }
 
 /* Responsive Styles */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .wrapper {
     max-width: 100%;
   }
@@ -266,7 +269,7 @@ h2 {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .navbar a:not(:first-child) {display: none;}
   .navbar a.icon {
     display: flex;
@@ -275,7 +278,7 @@ h2 {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .navbar.responsive {position: relative;}
   .navbar.responsive a.icon {
     position: absolute;
