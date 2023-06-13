@@ -12,7 +12,7 @@
   <meta content="https://bigcookie.org" property="og:url" />
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
   <meta content="#43B581" data-react-helmet="true" name="theme-color" />
-  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/css/style.css" rel="stylesheet" type="text/css"/>
   <link href="favicon.png" rel="icon"/>
 </head>
 
@@ -24,7 +24,16 @@
   <nav>
     <div class="navbar" id="myNavbar">
       <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
-      <a href="https://bigcookie.org/links"><i class="fa-solid fa-circle-info fa-xs"></i> Links</a>
+      <div class="dropdown">
+        <button class="dropbtn"><i class="fa-solid fa-circle-info fa-xs"></i> Links</button>
+        <div class="dropdown-content">
+          <a href="https://bigcookie.org/profile/gavo">Gavo</a>
+          <a href="https://bigcookie.org/profile/wick">Wick</a>
+          <a href="https://bigcookie.org/profile/borck">borck</a>
+          <a href="https://bigcookie.org/profile/usecode">UseCode</a>
+          <a href="https://bigcookie.org/profile/jerkface">Jerkface</a>
+        </div>
+      </div>
       <a href="https://discord.gg/eKgZTtv87V" target="_blank"><i class="fa-brands fa-discord fa-xs"></i> Discord</a>
       <a href="https://bigcookie.org/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
       <a href="https://bigcookie.org/esports"><i class="fa-solid fa-ranking-star fa-xs"></i> eSports</a>
@@ -48,7 +57,7 @@
     </ul>
   </div>
   
-  <script src="scripts/script.js"></script>
+  <script src="/scripts/script.js"></script>
   
   <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </body>
