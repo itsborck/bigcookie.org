@@ -26,7 +26,6 @@
         <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
         <a href="#about"><i class="fa-solid fa-circle-info fa-xs"></i> About</a>
         <a href="#players"><i class="fa-solid fa-users fa-xs"></i> Players</a>
-        <a href="#coaches"><i class="fa-solid fa-chalkboard-user fa-xs"></i> Coaches</a>
         <a href="#schedule"><i class="fa-regular fa-calendar-days fa-xs"></i> Schedule</a>
         <a href="#contact" class="button"><i class="fa-solid fa-address-card fa-xs"></i> Contact Us</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -55,60 +54,24 @@
     <div class="container">
       <h2>Our Players</h2>
       <div class="player-card">
-        <img src="player1.jpg" alt="Player 1">
-        <h3>Player 1</h3>
-        <p>Position: Support</p>
+        <img src="images/players/wick.gif" alt="Player 1">
+        <h3>Wick</h3>
       </div>
       <div class="player-card">
-        <img src="player2.jpg" alt="Player 2">
-        <h3>Player 2</h3>
-        <p>Position: Jungle</p>
+        <img src="images/players/borck.png" alt="Player 2">
+        <h3>borck</h3>
       </div>
       <div class="player-card">
-        <img src="player3.jpg" alt="Player 3">
-        <h3>Player 3</h3>
-        <p>Position: Mid</p>
+        <img src="images/players/gavo.jpg" alt="Player 3">
+        <h3>Gavo</h3>
       </div>
       <div class="player-card">
-        <img src="player4.jpg" alt="Player 4">
-        <h3>Player 4</h3>
-        <p>Position: ADC</p>
+        <img src="images/players/" alt="Player 4">
+        <h3>StoicSelf</h3>
       </div>
       <div class="player-card">
-        <img src="player5.jpg" alt="Player 5">
-        <h3>Player 5</h3>
-        <p>Position: Top</p>
-      </div>
-    </div>
-  </section>
-
-    <section id="coaches">
-    <div class="container">
-      <h2>Our Coaches</h2>
-      <div class="player-card">
-        <img src="player1.jpg" alt="Player 1">
-        <h3>Player 1</h3>
-        <p>Position: Support</p>
-      </div>
-      <div class="player-card">
-        <img src="player2.jpg" alt="Player 2">
-        <h3>Player 2</h3>
-        <p>Position: Jungle</p>
-      </div>
-      <div class="player-card">
-        <img src="player3.jpg" alt="Player 3">
-        <h3>Player 3</h3>
-        <p>Position: Mid</p>
-      </div>
-      <div class="player-card">
-        <img src="player4.jpg" alt="Player 4">
-        <h3>Player 4</h3>
-        <p>Position: ADC</p>
-      </div>
-      <div class="player-card">
-        <img src="player5.jpg" alt="Player 5">
-        <h3>Player 5</h3>
-        <p>Position: Top</p>
+        <img src="images/players/" alt="Player 5">
+        <h3>UseCode</h3>
       </div>
     </div>
   </section>
@@ -124,22 +87,10 @@
           <th>Location</th>
         </tr>
         <tr>
-          <td>June 5</td>
-          <td>Team A</td>
-          <td>8:00 PM</td>
-          <td>Arena 1</td>
-        </tr>
-        <tr>
-          <td>June 12</td>
-          <td>Team B</td>
-          <td>7:30 PM</td>
-          <td>Arena 2</td>
-        </tr>
-        <tr>
-          <td>June 19</td>
-          <td>Team C</td>
-          <td>9:00 PM</td>
-          <td>Arena 3</td>
+          <td>TBA</td>
+          <td>TBA</td>
+          <td>TBA</td>
+          <td>TBA</td>
         </tr>
       </table>
     </div>
@@ -149,16 +100,17 @@
     <div class="container">
       <h2>Contact Us</h2>
       <p>Feel free to reach out to us for any inquiries or partnership opportunities.</p>
-      <form>
-        <input type="text" placeholder="Name" required>
-        <input type="email" placeholder="Email" required>
-        <textarea placeholder="Message" required></textarea>
-        <button type="submit">Send Message</button>
+      <form action="https://formsubmit.co/bpavelko624@gmail.com" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea placeholder="Message" name="message" required></textarea>
+        <button type="submit" class="button_slide slide_right">Send Message</button>
       </form>
     </div>
   </section>
 
-  <script src="scripts/script.js"></script>
+<script src="scripts/script.js"></script>
 
 <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
   
