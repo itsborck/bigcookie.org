@@ -95,12 +95,13 @@
   
   /* Hero section */
   .hero {
+    position: relative;
     text-align: center;
     padding: 100px 0;
     color: #fff;
-    background: linear-gradient(to top, #000000ba, #333333cc), 
-    url('/images/esports/slapshot.jpg') center;
+    background: linear-gradient(to top, #000000ba, #333333cc);
     background-size: cover;
+    overflow: hidden;
   }
   
   .hero h1 {
@@ -120,6 +121,18 @@
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
+  }
+
+  video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
   }
 
   .button_slide {
