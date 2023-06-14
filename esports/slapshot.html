@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <title>Big Cookie eSports</title>
+  <meta content="Big Cookie eSports" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org" property="og:url" />
+  <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <link href="/css/esports.css" rel="stylesheet" type="text/css"/>
+  <link href="/favicon.png" rel="icon"/>
+</head>
+<body>
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="#about"><i class="fa-solid fa-circle-info fa-xs"></i> About</a>
+        <a href="#players"><i class="fa-solid fa-users fa-xs"></i> Players</a>
+        <a href="#schedule"><i class="fa-regular fa-calendar-days fa-xs"></i> Schedule</a>
+        <a href="#contact" class="button"><i class="fa-solid fa-address-card fa-xs"></i> Contact Us</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+  
+  <section id="home">
+    <div class="hero">
+      <h1>Welcome to Big Cookie eSports</h1>
+      <p>Join us in the thrilling world of competitive gaming!</p>
+      <a href="#contact" class="btn">Contact Us</a>
+      <video autoplay loop muted>
+        <source src="/images/esports/slapshot.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+  
+  <section id="about">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>At Big Cookie eSports, we have assembled a talented roster of gamers who excel in Slapshot: Rebound. Our team members are not just exceptional players; they are united by their shared love for gaming and their commitment to pushing the boundaries of what is possible in the virtual world.</p>
+    </div>
+  </section>
+  
+  <section id="players">
+    <div class="container">
+      <h2>Our Players</h2>
+      <div class="player-card">
+        <img src="/images/players/wick.gif" alt="Player 1">
+        <h3>Wick</h3>
+      </div>
+      <div class="player-card">
+        <img src="/images/players/borck.png" alt="Player 2">
+        <h3>borck</h3>
+      </div>
+      <div class="player-card">
+        <img src="/images/players/gavo.jpg" alt="Player 3">
+        <h3>Gavo</h3>
+      </div>
+      <div class="player-card">
+        <img src="/images/players/stoicself.png" alt="Player 4">
+        <h3>StoicSelf</h3>
+      </div>
+      <div class="player-card">
+        <img src="/images/players/usecode.png" alt="Player 5">
+        <h3>UseCode</h3>
+      </div>
+    </div>
+  </section>
+  
+  <section id="schedule">
+    <div class="container">
+      <h2>Upcoming Schedule</h2>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Opponent</th>
+          <th>Time</th>
+          <th>Location</th>
+        </tr>
+        <tr>
+          <td>TBA</td>
+          <td>TBA</td>
+          <td>TBA</td>
+          <td>TBA</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+  
+  <section id="contact">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Feel free to reach out to us for any inquiries or partnership opportunities.</p>
+      <form action="https://formsubmit.co/d0683b80696065504e3c04ac8a02d6af" method="POST">
+        <input type="text" name="_honey" style="display:none">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://bigcookie.org/success">
+        <input type="hidden" name="_template" value="box">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea placeholder="Message" name="message" required></textarea>
+        <button type="submit" class="button_slide slide_right">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+<script src="/scripts/script.js"></script>
+
+<button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2023 Big Cookie eSports. All rights reserved.</p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#players">Players</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
