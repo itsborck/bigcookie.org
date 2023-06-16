@@ -184,6 +184,16 @@ header {
   color: white;
 }
 
+.line {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  display: grid;
+  height: 5px;
+  line-height: 80%;
+  color: #000;
+  animation: gradient 15s ease infinite;
+}
+
 .wrapper {
   position: absolute;
   width: 400px;
@@ -365,12 +375,6 @@ h2 {
 
   .links a {
     padding: 8px;
-  }
-  
-  .toggle-dark-mode {
-    font-size: 20px;
-    padding: 12px 24px;
-    margin-bottom: 20px;
   }
 }
 
