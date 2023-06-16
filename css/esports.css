@@ -168,11 +168,27 @@ header {
 .hero {
   position: relative;
   text-align: center;
-  padding: 100px 0;
+  padding-top: 200px;
+  padding-bottom: 200px;
   color: #fff;
   background: linear-gradient(to top, #000000ba, #333333cc);
   background-size: cover;
   overflow: hidden;
+  margin: 0 auto;
+}
+
+.hero-cs {
+  position: relative;
+  text-align: center;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  color: #fff;
+  background: linear-gradient(to top, #000000ba, #333333cc), url(/images/esports/csgo.jpg);
+  background-size: cover;
+  overflow: hidden;
+  margin: 0 auto;
+  transform: translateY(-80px);
+  background-position: center;
 }
   
 .hero h1 {
@@ -319,9 +335,12 @@ form button {
   z-index: 9999;
   padding: 10px 20px;
   border-radius: 5px;
-  background-color: #161616;
+  background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
   color: #f5f5f5;
   cursor: pointer;
+  animation: gradient 15s ease infinite;
+  box-shadow: #000 0px 0px 15px;
 }
   
 /* Footer */
