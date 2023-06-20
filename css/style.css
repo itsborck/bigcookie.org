@@ -291,6 +291,7 @@ header {
 .column {
   flex: 25%;
   padding: 5px;
+  padding-top: 50px;
 }
 
 h1 {
