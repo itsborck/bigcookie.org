@@ -403,21 +403,17 @@ h2 {
 }
 
 @media screen and (max-width: 768px) {
-  .navbar a:not(:first-child) {display: none;}
+  .navbar a:not(:first-child), .dropdown .dropbtn {
+    display: none;
+  }
+
   .navbar a.icon {
-    display: flex;
     float: right;
     display: block;
   }
   
-  .dropdown,
   .social-icons {
     display: none;
-  }
-
-  .navbar .dropdown,
-  .navbar .dropdown-content {
-    position: static;
   }
 }
 
@@ -428,18 +424,21 @@ h2 {
     right: 0;
     top: 0;
   }
+
   .navbar.responsive a {
     float: none;
     display: block;
     text-align: left;
   }
 
-  .navbar.responsive .dropdown {
-    float: none;
+  .navbar.responsive .dropdown {float: none;}
+  .navbar.responsive .dropdown-content {position: relative;}
+  .navbar.responsive .dropdown .dropbtn {
     display: block;
+    width: 100%;
     text-align: left;
   }
-
+  
   .navbar.responsive .social-icons {
     float: none;
     display: flex;
