@@ -6,15 +6,47 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <title>Sucess!</title>
-  <meta content="Big Cookie eSports" property="og:title" />
+  <title>Home - Big Cookie</title>
+  <meta content="Big Cookie" property="og:title" />
   <meta content="big cookie" property="og:description" />
   <meta content="https://bigcookie.org" property="og:url" />
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
+  <meta content="website" property="og:type" />
   <meta content="#43B581" data-react-helmet="true" name="theme-color" />
-  <link href="css/esports.css" rel="stylesheet" type="text/css"/>
+  <meta content="Big Cookie" name="twitter:title">
+  <meta content="big cookie" name="twitter:description">
+  <meta content="https://bigcookie.org" name="twitter:url">
+  <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
+  <meta content="summary_large_image" name="twitter:card">
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
   <link href="favicon.png" rel="icon"/>
 </head>
+
+<header>
+  <nav>
+    <div class="navbar" id="myNavbar">
+      <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+      <a href="https://bigcookie.org/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+      <a href="https://bigcookie.org/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+      <div class="dropdown">
+        <button class="dropbtn"><i class="fa-solid fa-ranking-star fa-xs"></i> eSports</button>
+        <div class="dropdown-content" id="dropdown">
+          <a href="https://bigcookie.org/esports/cs">Counter-Strike</a>
+          <a href="https://bigcookie.org/esports/slapshot">Slapshot</a>
+        </div>
+      </div>
+      <a href="https://shop.bigcookie.org" target="_blank"><i class="fa-solid fa-shirt fa-xs"></i> Merch</a>
+      <div class="social-icons">
+        <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://kick.com/realbigcookie" target="_blank"><img src="images/socials/kick.png" alt="Kick"></a>
+        <a href="https://discord.gg/eKgZTtv87V" target="_blank"><i class="fa-brands fa-discord fa-xs"></i></a>
+      </div>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+  </nav>
+</header>
 
 <body>
     <div class="container">
@@ -22,15 +54,14 @@
         <p>Success! We will get back to you shortly!</p>
         <a href="https://bigcookie.org/esports">Go Back</a>
     </div>
-    
-    <script src="scripts/script.js"></script>
-    
-    <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-    
-    <footer>
-        <div class="container">
-          <p>&copy; 2023 Big Cookie. All rights reserved.</p>
-        </div>
-      </footer>
 </body>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2023 Big Cookie. All rights reserved.</p>
+  </div>
+</footer>
+
+      <script src="scripts/script.js"></script>
+      <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </html>
