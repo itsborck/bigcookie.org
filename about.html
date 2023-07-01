@@ -1,84 +1,116 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>About Us</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f2f2f2;
-    }
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <title>About Us - Big Cookie</title>
+    <meta content="Big Cookie" property="og:title" />
+    <meta content="big cookie" property="og:description" />
+    <meta content="https://bigcookie.org" property="og:url" />
+    <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
+    <meta content="website" property="og:type" />
+    <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+    <link href="css/about.css" rel="stylesheet" type="text/css"/>
+    <link href="favicon.png" rel="icon"/>
+  </head>
 
-    h1 {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .person {
-      display: flex;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .person img {
-      width: 100px;
-      border-radius: 50%;
-      margin-right: 20px;
-    }
-
-    .person .info {
-      flex: 1;
-    }
-
-    .person h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .person p {
-      margin: 10px 0;
-    }
-  </style>
-</head>
 <body>
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="https://bigcookie.org/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+        <a href="https://bigcookie.org/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="fa-solid fa-ranking-star fa-xs"></i> eSports</button>
+          <div class="dropdown-content" id="dropdown">
+            <a href="https://bigcookie.org/esports/cs">Counter-Strike</a>
+            <a href="https://bigcookie.org/esports/slapshot">Slapshot</a>
+          </div>
+        </div>
+        <a href="https://shop.bigcookie.org" target="_blank"><i class="fa-solid fa-shirt fa-xs"></i> Merch</a>
+        <div class="social-icons">
+          <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+          <a href="https://kick.com/realbigcookie" target="_blank"><img src="images/socials/kick.png" alt="Kick"></a>
+          <a href="https://discord.gg/eKgZTtv87V" target="_blank"><i class="fa-brands fa-discord fa-xs"></i></a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-image">
+    <div class="hero-text">
+      <div class="slide-down">
+        <div>About Us</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
   <div class="container">
-    <h1>About Us</h1>
-
     <div class="person">
-      <img src="person1.jpg" alt="Person 1">
+      <img src="images/about images/borck.jpg" alt="Person 1">
       <div class="info">
-        <h2>John Doe</h2>
-        <p>Co-Founder</p>
+        <h2>borck</h2>
+        <p>CEO of Big Cookie</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
       </div>
     </div>
 
     <div class="person">
-      <img src="person2.jpg" alt="Person 2">
+      <img src="images/about images/gavo.jpg" alt="Person 2">
       <div class="info">
-        <h2>Jane Smith</h2>
-        <p>CEO</p>
+        <h2>Gavo</h2>
+        <p></p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
       </div>
     </div>
 
     <div class="person">
-      <img src="person3.jpg" alt="Person 3">
+      <img src="images/about images/wick.jpg" alt="Person 3">
       <div class="info">
-        <h2>David Johnson</h2>
-        <p>Marketing Manager</p>
+        <h2>Wick</h2>
+        <p></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
+      </div>
+    </div>
+    <div class="person">
+      <img src="images/about images/usecode.jpg" alt="Person 4">
+      <div class="info">
+        <h2>UseCode</h2>
+        <p></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
+      </div>
+    </div>
+    <div class="person">
+      <img src="images/about images/jerkface.jpg" alt="Person 5">
+      <div class="info">
+        <h2>Jerkface</h2>
+        <p></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
+      </div>
+    </div>
+    <div class="person">
+      <img src="images/about images/pristine.jpg" alt="Person 6">
+      <div class="info">
+        <h2>QueenPristine</h2>
+        <p></p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt tempus mi in consectetur.</p>
       </div>
     </div>
   </div>
+  <script src="scripts/script.js"></script>
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </body>
 </html>
