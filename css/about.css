@@ -58,6 +58,7 @@ header {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   display: grid;
+  place-items: center;
   font-size: 20px;
   color: #000;
   animation: gradient 15s ease infinite;
@@ -227,7 +228,7 @@ header {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 0 20px;
   margin-top: 40px;
   text-align: center;
 }
@@ -256,6 +257,33 @@ header {
 .person p {
   margin: 10px 0;
 }
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+  
+footer ul {
+  list-style-type: none;
+  margin-top: 20px;
+}
+  
+footer ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+  
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
 
 .dark-mode {
   background-color: #ffffff;
