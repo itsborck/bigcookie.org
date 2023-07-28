@@ -19,13 +19,6 @@ html {
   min-height: 100%;
 }
 
-footer {
-  background-color: #333;
-  padding: 20px;
-  text-align: center;
-  margin-top: 510px; /* push the footer to the bottom */
-}
-
 .preloader {
   background-color: #000;
   position: fixed;
