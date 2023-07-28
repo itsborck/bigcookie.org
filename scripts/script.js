@@ -22,5 +22,3 @@ document.getElementById("dropdown").addEventListener("click", function(event) {
         this.style.display = "none";
     }
 });
-
-var progressBar = document.querySelector('progress');
