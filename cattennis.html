@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        /* Add styling for the floating image */
+        .floating-image {
+          position: fixed;
+          pointer-events: none; /* Allow clicks to go through the image */
+          z-index: 99999;
+          width: 300px; /* Adjust the size of the floating image */
+          height: 300px;
+          cursor: none;
+          margin-left: -100px;
+          margin-top: -150px;
+        }
+    </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <title>Games - Big Cookie</title>
+  <title>Cat Tennis - Big Cookie</title>
   <meta content="Big Cookie Games" property="og:title" />
   <meta content="big cookie" property="og:description" />
   <meta content="https://bigcookie.org/games" property="og:url" />
@@ -49,30 +62,13 @@
       </div>
     </nav>
   </header>
+  <img src="images/cattennis/cattennisopponent.png" alt="Opponent" class="opponent" id="opponent" >
 
-  <div class="hero-image">
-    <div class="hero-text">
-      <div class="slide-down">
-        <div>Big Cookie Games</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="line"></div>
-
-  <div class="column">
-    <img src="images/cattennis/cattennislogo.png" alt="Cat Tennis Logo" style="width:10%">
-  </div>
-
-  <div class="cattenniscolumn">
-    <a href="https://bigcookie.org/cattennis"><i class="fa-solid fa-gamepad fa-xs"></i> Play Cat Tennis (Work in progress)</a>
-  </div>
+  <img src="images/cattennis/cookiepan.png" alt="Racket" class="floating-image" id="floatingImage">
 
 
+  <script src="scripts/cattennis.js"></script>
 
-
-  <script src="scripts/script.js"></script>
-  
-  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  <button class="toggle-dark-mode" onclick="startGame()">Start Game</button>
 </body>
 </html>
