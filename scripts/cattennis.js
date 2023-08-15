@@ -52,15 +52,41 @@ function moveBall(dx, dy) {
   updateBallPosition();
 }
 
+function playPlayerHitSound() {
+  const playerHitSound = document.getElementById("playerHitSound");
+  playerHitSound.volume = 0.25;
+  playerHitSound.play();
+}
+function playOpponentHitSound() {
+  const opponentHitSound = document.getElementById("opponentHitSound");
+  opponentHitSound.volume = 0.25;
+  opponentHitSound.play();
+}
+function playTennisTheme(){
+  const tennisTheme = document.getElementById("tennisTheme");
+  tennisTheme.volume = 0.05;
+  tennisTheme.loop = true;
+  tennisTheme.currentTime = .5;
+  tennisTheme.play();
+}
+function stopTennisTheme(){
+  const tennisTheme = document.getElementById("tennisTheme");
+  tennisTheme.pause();
+}
+
+
+
 function checkBallInteraction() {
   if (isMouseOverElement() && ballY > 600 && ballVelY < 0 && gameOver == false) {
     ballVelX *= -1.015;
     ballVelY *= -1.015;
     score += 1;
     scoreText.innerHTML = score;
+    playPlayerHitSound();
   } else if (ballY < 20 && ballVelY > 0) {
     ballVelX = Math.random() * 6 - 3;
     ballVelY *= -1;
+    playOpponentHitSound();
   }
 }
 
@@ -77,6 +103,7 @@ function isMouseOverElement() {
 }
 
 let animationId;
+
 function animateBall() {
   moveBall(ballVelX, ballVelY);
 
@@ -87,6 +114,7 @@ function animateBall() {
     gameOver = true;
     panImage.style.display = "none";
     document.getElementById('start-game').style.display = "block";
+    playTennisTheme();
   }
 
   if (ballVelY < 0){
@@ -121,6 +149,7 @@ function startGame() {
   ballVelX = 0;
   ballVelY = -4;
   gameOver = false;
+  stopTennisTheme();
   
   updateBallPosition();
 

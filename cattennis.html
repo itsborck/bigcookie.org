@@ -44,7 +44,7 @@
           background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
           background-size: 400% 400%;
           color: #f5f5f5;
-          font-size: larger;
+          font-size: 40px;
           cursor: pointer;
           animation: gradient 1s ease infinite;
           box-shadow: #000 0px 0px 15px;
@@ -117,12 +117,15 @@
   </header>
   <img src="images/cattennis/cookieball.png" alt="Ball" class="ball" id="ball">
   <img src="images/cattennis/cattennisopponent.png" alt="Opponent" class="opponent" id="opponent">
-
   <img src="images/cattennis/cookiepan.png" alt="Racket" class="racket" id="racket">
   
   <div class="score" id="score">0</div>
 
+  <audio id="playerHitSound" src="images/cattennis/audio/playerhitsound.mp3"></audio>
+  <audio id="opponentHitSound" src="images/cattennis/audio/opponenthitsound.mp3"></audio>
+  <audio id="tennisTheme" src="images/cattennis/audio/tennistheme.mp3"></audio>
 
+  
   <script src="scripts/cattennis.js"></script>
 
   <button class="start-button" id="start-game" onclick="startGame()">Start Game</button>
