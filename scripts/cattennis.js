@@ -10,6 +10,7 @@ document.addEventListener("mousemove", (event) => {
 
   panImage.style.left = `${mouseX}px`;
   panImage.style.top = `${mouseY}px`;
+  // panImage.style.top = `${725}px`; // Uncomment this line to lock the racket to the bottom of the screen
 });
 
 // Mousemove event to track the mouse position for ball interaction
@@ -23,6 +24,7 @@ document.addEventListener("mousemove", (event) => {
 
 const panImage = document.getElementById("racket");
 const ballImage = document.getElementById("ball");
+const scoreText = document.getElementById("score");
 
 panImage.style.display = "none";
 
@@ -51,11 +53,13 @@ function moveBall(dx, dy) {
 }
 
 function checkBallInteraction() {
-  if (isMouseOverElement() && ballY > 600 && ballVelY < 0) {
-    ballVelX *= -1;
-    ballVelY *= -1;
-  } else if (ballY < 20) {
-    // ballVelX = Math.random() * 6 - 3;
+  if (isMouseOverElement() && ballY > 600 && ballVelY < 0 && gameOver == false) {
+    ballVelX *= -1.015;
+    ballVelY *= -1.015;
+    score += 1;
+    scoreText.innerHTML = score;
+  } else if (ballY < 20 && ballVelY > 0) {
+    ballVelX = Math.random() * 6 - 3;
     ballVelY *= -1;
   }
 }
@@ -80,6 +84,9 @@ function animateBall() {
     animationId = requestAnimationFrame(animateBall); // Continue the animation
   } else {
     cancelAnimationFrame(animationId); // Stop the animation when the Y value is reached
+    gameOver = true;
+    panImage.style.display = "none";
+    document.getElementById('start-game').style.display = "block";
   }
 
   if (ballVelY < 0){
@@ -98,11 +105,27 @@ function animateBall() {
 }
 
 updateBallPosition();
+let score = 0;
+let gameOver = false;
 
 // Start the game
 function startGame() {
-  document.getElementById("start-game").style.display = "none";
-  document.getElementById("racket").style.display = "block";
+  score = 0;
+  scoreText.innerHTML = score;
+  ballwidth = 75;
+  ballheight = 75;
+  ballImage.width = ballwidth;
+  ballImage.height = ballheight;
+  ballX = (screenWidth - ballImage.width) / 2;
+  ballY = 20;
+  ballVelX = 0;
+  ballVelY = -4;
+  gameOver = false;
+  
+  updateBallPosition();
+
+  document.getElementById('start-game').style.display = "none";
+  panImage.style.display = "block";
   animateBall();
 
   setInterval(checkBallInteraction, 100);
