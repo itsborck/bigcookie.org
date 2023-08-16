@@ -74,6 +74,25 @@ function stopTennisTheme(){
   tennisTheme.pause();
 }
 
+let audioMuted = false;
+function muteAudio(){
+  const tennisTheme = document.getElementById("tennisTheme");
+  const playerHitSound = document.getElementById("playerHitSound");
+  const opponentHitSound = document.getElementById("opponentHitSound");
+  audioMuted = !audioMuted;
+  if (audioMuted){
+    document.getElementById("mute-audio").innerHTML = "Unmute Audio";
+    tennisTheme.muted = true;
+    playerHitSound.muted = true;
+    opponentHitSound.muted = true;
+  } else {
+    document.getElementById("mute-audio").innerHTML = "Mute Audio";
+    tennisTheme.muted = false;
+    playerHitSound.muted = false;
+    opponentHitSound.muted = false;
+  }
+
+}
 
 
 function checkBallInteraction() {
