@@ -54,17 +54,16 @@ function moveBall(dx, dy) {
 
 function playPlayerHitSound() {
   const playerHitSound = document.getElementById("playerHitSound");
-  playerHitSound.volume = 0.25;
+  // playerHitSound.volume = 0.25;
   playerHitSound.play();
 }
 function playOpponentHitSound() {
   const opponentHitSound = document.getElementById("opponentHitSound");
-  opponentHitSound.volume = 0.25;
   opponentHitSound.play();
 }
 function playTennisTheme(){
   const tennisTheme = document.getElementById("tennisTheme");
-  tennisTheme.volume = 0.05;
+  // tennisTheme.volume = 0.05;
   tennisTheme.loop = true;
   tennisTheme.currentTime = .5;
   tennisTheme.play();
@@ -91,7 +90,18 @@ function muteAudio(){
     playerHitSound.muted = false;
     opponentHitSound.muted = false;
   }
-
+}
+function adjustVolume() {
+  const tennisTheme = document.getElementById("tennisTheme");
+  const playerHitSound = document.getElementById("playerHitSound");
+  const opponentHitSound = document.getElementById("opponentHitSound");
+  const volumeSlider = document.getElementById("volume-slider");
+  
+  const volume = parseFloat(volumeSlider.value);
+  
+  tennisTheme.volume = volume * .2;
+  playerHitSound.volume = volume * .7;
+  opponentHitSound.volume = volume * .7;
 }
 
 
@@ -152,6 +162,7 @@ function animateBall() {
 }
 
 updateBallPosition();
+adjustVolume();
 let score = 0;
 let gameOver = false;
 
