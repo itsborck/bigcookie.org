@@ -143,7 +143,11 @@ function animateBall() {
     gameOver = true;
     panImage.style.display = "none";
     document.getElementById('start-game').style.display = "block";
-    playTennisTheme();
+    if (Math.floor(Math.random() * 100) + 1 == 50){
+      window.open("https://www.youtube.com/watch?v=OL94hTjUX7c")
+    } else {
+      playTennisTheme();
+    }
   }
 
   if (ballVelY < 0){
