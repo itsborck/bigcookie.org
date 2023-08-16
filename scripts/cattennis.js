@@ -1,6 +1,8 @@
 window.addEventListener("load", function() {
   var preloader = document.querySelector(".preloader");
   preloader.classList.add("hide");
+  
+  this.setTimeout(playTennisTheme, 1000);
 });
 
 // Mousemove event to move the racket (pan) along with the cursor
@@ -164,6 +166,7 @@ function animateBall() {
 
   checkBallInteraction();
 }
+
 
 updateBallPosition();
 adjustVolume();
