@@ -16,9 +16,3 @@ function myFunction() {
         x.className = "navbar";
     }
 }
-
-document.getElementById("dropdown").addEventListener("click", function(event) {
-    if (event.target !== this) {
-        this.style.display = "none";
-    }
-});

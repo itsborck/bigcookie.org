@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <title>Cases - Big Cookie</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/case.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'></script>
+  <link href="favicon.png" rel="icon"/>
+</head>
+<body>
+  <div class="preloader">
+    <div class="loader">
+      <img src="favicon.png">
+    </div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="https://bigcookie.org/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+        <a href="https://bigcookie.org/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+        <a href="https://bigcookie.org/esports"><i class="fa-solid fa-trophy fa-xs"></i> eSports</a>
+        <a href="https://bigcookie.org/photos"><i class="fa-solid fa-image fa-xs"></i> Photos</a>
+        <a href="https://shop.bigcookie.org" target="_blank"><i class="fa-solid fa-shirt fa-xs"></i> Merch</a>
+        <div class="social-icons">
+          <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube fa-s"></i></a>
+          <a href="https://kick.com/realbigcookie" target="_blank"><i class="fa-brands fa-kickstarter-k fa-s"></i></a>
+          <a href="https://discord.gg/eKgZTtv87V" target="_blank"><i class="fa-brands fa-discord fa-s"></i></a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div id=unbox-area>
+    <div class="arrow-down"></div>
+    <div id=cardList></div>
+  </div>
+  <center><button onclick="openCase();">Open</button></center>
+  <div id=dialog>
+    <div id=dialog-msg></div>
+  </div>
+
+  <script src="scripts/case.js"></script>
+  <script src="scripts/script.js"></script>
+
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+</body>
+</html>
