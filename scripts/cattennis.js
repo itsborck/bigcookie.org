@@ -1,9 +1,30 @@
+var firebaseConfig = {
+  apiKey: "AIzaSyCplI9U1goCZKToI0xGnLfJn4XsgqkhTHM",
+  authDomain: "leaderboard-44fa9.firebaseapp.com",
+  databaseURL: "https://leaderboard-44fa9-default-rtdb.firebaseio.com",
+  projectId: "leaderboard-44fa9",
+  storageBucket: "leaderboard-44fa9.appspot.com",
+  messagingSenderId: "799491604833",
+  appId: "1:799491604833:web:9e9bbff6701edd15cd0520",
+  measurementId: "G-GMW6Y7SH34"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+var database = firebase.database();
+var scoresRef = database.ref("scores");
+
 window.addEventListener("load", function() {
   var preloader = document.querySelector(".preloader");
   preloader.classList.add("hide");
   
   this.setTimeout(playTennisTheme, 1000);
 });
+
+function gameOver(score) {
+  updateLeaderboard(score);
+  // Any other logic for game over
+}
 
 // Mousemove event to move the racket (pan) along with the cursor
 document.addEventListener("mousemove", (event) => {
@@ -108,7 +129,7 @@ function adjustVolume() {
 
 
 function checkBallInteraction() {
-  if (isMouseOverElement() && ballY > 600 && ballVelY < 0 && gameOver == false) {
+  if (isMouseOverElement() && ballY > 600 && ballVelY < 0 && isGameOver == false) {
     ballVelX *= -1.015;
     ballVelY *= -1.015;
     score += 1;
@@ -142,7 +163,7 @@ function animateBall() {
     animationId = requestAnimationFrame(animateBall); // Continue the animation
   } else {
     cancelAnimationFrame(animationId); // Stop the animation when the Y value is reached
-    gameOver = true;
+    isGameOver = true;
     panImage.style.display = "none";
     document.getElementById('start-game').style.display = "block";
     if (score == 69){
@@ -152,6 +173,11 @@ function animateBall() {
       window.open("https://www.youtube.com/watch?v=OL94hTjUX7c")
     } else {
       playTennisTheme();
+    }
+    if (ballY >= 650) {
+      gameOver(score);
+    } else {
+      animationId = requestAnimationFrame(animateBall);
     }
   }
 
@@ -174,7 +200,7 @@ function animateBall() {
 updateBallPosition();
 adjustVolume();
 let score = 0;
-let gameOver = false;
+let isGameOver = false;
 
 // Start the game
 function startGame() {
@@ -188,7 +214,7 @@ function startGame() {
   ballY = 20;
   ballVelX = 0;
   ballVelY = -4;
-  gameOver = false;
+  isGameOver = false;
   stopTennisTheme();
   
   updateBallPosition();
@@ -199,3 +225,46 @@ function startGame() {
 
   setInterval(checkBallInteraction, 100);
 }
+
+function updateLeaderboard(score) {
+  var database = firebase.database();
+  var scoresRef = database.ref("scores");
+
+  scoresRef.orderByChild("score").limitToLast(100).once("value", function(snapshot) {
+    if (snapshot.numChildren() >= 100) {
+      snapshot.forEach(function(childSnapshot) {
+        if (snapshot.numChildren() >= 100) {
+          childSnapshot.ref.remove();
+        }
+      });
+    }
+    scoresRef.push({
+      score: score
+    });
+  });
+}
+
+var leaderboardList = document.getElementById("leaderboard-list");
+
+scoresRef.orderByChild("score").limitToLast(10).on("value", function(snapshot) {
+  leaderboardList.innerHTML = ""; // Clear previous entries
+
+  if (snapshot.exists()) {
+    var scoreArray = [];
+    snapshot.forEach(function(childSnapshot) {
+      scoreArray.push(childSnapshot.val());
+    });
+
+    scoreArray.sort((a, b) => b.score - a.score); // Sort scores in descending order
+
+    scoreArray.forEach(function(scoreData) {
+      var listItem = document.createElement("li");
+      listItem.textContent = scoreData.score;
+      leaderboardList.appendChild(listItem);
+    });
+  } else {
+    var messageItem = document.createElement("li");
+    messageItem.textContent = "No scores yet"; // Display a message for empty leaderboard
+    leaderboardList.appendChild(messageItem);
+  }
+});

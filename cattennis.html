@@ -24,6 +24,10 @@
 </head>
 
 <body id="body">
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+
   <div class="preloader">
     <div class="loader">
       <img src="favicon.png">
@@ -50,6 +54,12 @@
       </div>
     </nav>
   </header>
+
+  <div id="leaderboard">
+    <h2>Highest Scores</h2>
+    <ul id="leaderboard-list"></ul>
+  </div>
+  
 
   <button class="mute-audio" id="mute-audio" onclick="muteAudio()">Mute Audio</button>
 
