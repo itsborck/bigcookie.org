@@ -26,6 +26,8 @@ document.getElementById('google-signin').addEventListener('click', () => {
       document.getElementById('google-signin').style.display = 'none';
       // Show the sign-out button
       document.getElementById('sign-out-button').style.display = 'block';
+
+      window.location.reload();
     })
     .catch((error) => {
       // Handle errors
@@ -39,15 +41,13 @@ document.getElementById('sign-out-button').addEventListener('click', () => {
     document.getElementById("user-name").textContent = "";
     document.getElementById('google-signin').style.display = 'block';
     document.getElementById('sign-out-button').style.display = 'none';
-  }).catch((error) => {
+
+    window.location.reload();
+  })
+  .catch((error) => {
     console.error(error);
   });
 });
-
-function reloadPage() {
-  setTimeout(5000);
-  window.location.reload();
-}
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
