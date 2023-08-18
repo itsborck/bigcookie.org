@@ -14,6 +14,56 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var scoresRef = database.ref("scores");
 
+document.getElementById('google-signin').addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+      // Handle successful sign-in
+      const user = result.user;
+      document.getElementById("user-name").textContent = "Hello, " + user.displayName;
+
+      // Hide the sign-in button
+      document.getElementById('google-signin').style.display = 'none';
+      // Show the sign-out button
+      document.getElementById('sign-out-button').style.display = 'block';
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error(error);
+    });
+});
+
+document.getElementById('sign-out-button').addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+    // Reset UI after sign out
+    document.getElementById("user-name").textContent = "";
+    document.getElementById('google-signin').style.display = 'block';
+    document.getElementById('sign-out-button').style.display = 'none';
+  }).catch((error) => {
+    console.error(error);
+  });
+});
+
+function reloadPage() {
+  setTimeout(5000);
+  window.location.reload();
+}
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById("user-name").textContent = "Hello, " + user.displayName;
+    document.getElementById('google-signin').style.display = 'none';
+    document.getElementById('sign-out-button').style.display = 'block';
+    document.getElementById('start-game').style.display = 'block';
+  } else {
+    // User is not signed in
+    document.getElementById("user-name").textContent = "";
+    document.getElementById('google-signin').style.display = 'block';
+    document.getElementById('sign-out-button').style.display = 'none';
+    document.getElementById('start-game').style.display = 'none';
+  }
+});
+
 window.addEventListener("load", function() {
   var preloader = document.querySelector(".preloader");
   preloader.classList.add("hide");
@@ -21,10 +71,6 @@ window.addEventListener("load", function() {
   this.setTimeout(playTennisTheme, 1000);
 });
 
-function gameOver(score) {
-  updateLeaderboard(score);
-  // Any other logic for game over
-}
 
 // Mousemove event to move the racket (pan) along with the cursor
 document.addEventListener("mousemove", (event) => {
@@ -164,6 +210,7 @@ function animateBall() {
   } else {
     cancelAnimationFrame(animationId); // Stop the animation when the Y value is reached
     isGameOver = true;
+    updateLeaderboard(score);
     panImage.style.display = "none";
     document.getElementById('start-game').style.display = "block";
     if (score == 69){
@@ -174,11 +221,7 @@ function animateBall() {
     } else {
       playTennisTheme();
     }
-    if (ballY >= 650) {
-      gameOver(score);
-    } else {
-      animationId = requestAnimationFrame(animateBall);
-    }
+
   }
 
   if (ballVelY < 0){
@@ -201,6 +244,7 @@ updateBallPosition();
 adjustVolume();
 let score = 0;
 let isGameOver = false;
+
 
 // Start the game
 function startGame() {
@@ -227,22 +271,30 @@ function startGame() {
 }
 
 function updateLeaderboard(score) {
-  var database = firebase.database();
-  var scoresRef = database.ref("scores");
+  var user = firebase.auth().currentUser;
+  
+  if (user && score > 0) {
+    var database = firebase.database();
+    var scoresRef = database.ref("scores");
 
-  scoresRef.orderByChild("score").limitToLast(100).once("value", function(snapshot) {
-    if (snapshot.numChildren() >= 100) {
-      snapshot.forEach(function(childSnapshot) {
-        if (snapshot.numChildren() >= 100) {
-          childSnapshot.ref.remove();
-        }
+    scoresRef.orderByChild("score").once("value", function(snapshot) {
+      if (snapshot.numChildren() >= 100) {
+        snapshot.forEach(function(childSnapshot) {
+          if (snapshot.numChildren() >= 100) {
+            childSnapshot.ref.remove();
+          }
+        });
+      }
+      scoresRef.push({
+        score: score,
+        name: user.displayName, // Add user's name
       });
-    }
-    scoresRef.push({
-      score: score
     });
-  });
+  } else {
+    console.log("Score is zero or user is not authenticated. Not updating leaderboard.");
+  }
 }
+
 
 var leaderboardList = document.getElementById("leaderboard-list");
 
@@ -259,12 +311,20 @@ scoresRef.orderByChild("score").limitToLast(10).on("value", function(snapshot) {
 
     scoreArray.forEach(function(scoreData) {
       var listItem = document.createElement("li");
-      listItem.textContent = scoreData.score;
+      listItem.textContent = scoreData.name + ": " + scoreData.score; // Display name and score
       leaderboardList.appendChild(listItem);
     });
   } else {
     var messageItem = document.createElement("li");
     messageItem.textContent = "No scores yet"; // Display a message for empty leaderboard
     leaderboardList.appendChild(messageItem);
+  }
+});
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("User is logged in:", user);
+  } else {
+    console.log("User is not logged in.");
   }
 });

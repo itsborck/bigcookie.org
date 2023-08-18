@@ -83,12 +83,39 @@
   position: absolute;
   left: 100px;
   text-align: center;
+  background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 10s ease infinite;
+  color: white;
 }
 
 #leaderboard-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+#auth-buttons button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  color: #f5f5f5;
+  font-size: 20px;
+  cursor: pointer;
+  animation: gradient 15s ease infinite;
+  box-shadow: #000 0px 0px 15px;
+}
+
+#user-name {
+  color: white;
+  text-align: center;
 }
 
 .mute-audio {
