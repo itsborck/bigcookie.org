@@ -272,26 +272,17 @@ function startGame() {
 
 function updateLeaderboard(score) {
   var user = firebase.auth().currentUser;
-  
-  if (user && score > 0) {
+
+  if (user && score > 0 && score <= 999) {
     var database = firebase.database();
     var scoresRef = database.ref("scores");
 
-    scoresRef.orderByChild("score").once("value", function(snapshot) {
-      if (snapshot.numChildren() >= 100) {
-        snapshot.forEach(function(childSnapshot) {
-          if (snapshot.numChildren() >= 100) {
-            childSnapshot.ref.remove();
-          }
-        });
-      }
-      scoresRef.push({
-        score: score,
-        name: user.displayName, // Add user's name
-      });
+    scoresRef.push({
+      score: score,
+      name: user.displayName,
     });
   } else {
-    console.log("Score is zero or user is not authenticated. Not updating leaderboard.");
+    console.log("Score is zero, user is not authenticated, or score is greater than 999. Not updating leaderboard.");
   }
 }
 
