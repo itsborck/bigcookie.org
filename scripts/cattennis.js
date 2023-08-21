@@ -183,7 +183,7 @@ function checkBallInteraction() {
     playPlayerHitSound();
   } else if (ballY < 20 && ballVelY > 0) {
     ballVelX = Math.random() * 6 - 3;
-    ballVelY *= -1.015;
+    ballVelY *= -1;
     playOpponentHitSound();
   }
 }
