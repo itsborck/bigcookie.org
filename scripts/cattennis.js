@@ -183,7 +183,7 @@ function checkBallInteraction() {
     playPlayerHitSound();
   } else if (ballY < 20 && ballVelY > 0) {
     ballVelX = Math.random() * 6 - 3;
-    ballVelY *= -1;
+    ballVelY *= -1.015;
     playOpponentHitSound();
   }
 }
@@ -202,14 +202,20 @@ function isMouseOverElement() {
 
 let animationId;
 
-function animateBall() {
+let lastTimestamp = 0;
+const frameInterval = 1000 / 60; // 60 FPS
+
+function animateBall(timestamp) {
+  if (!isGameOver && timestamp - lastTimestamp >= frameInterval) {
+    lastTimestamp = timestamp;
+
   moveBall(ballVelX, ballVelY);
 
   if (ballY < 650) {
-    animationId = requestAnimationFrame(animateBall); // Continue the animation
+    requestAnimationFrame(animateBall); // Continue the animation
   } else {
-    cancelAnimationFrame(animationId); // Stop the animation when the Y value is reached
     isGameOver = true;
+    cancelAnimationFrame(animationId); // Stop the animation when the Y value is reached
     updateLeaderboard(score);
     panImage.style.display = "none";
     document.getElementById('start-game').style.display = "block";
@@ -236,7 +242,9 @@ function animateBall() {
     ballImage.height = ballheight;
   }
 
-  checkBallInteraction();
+    checkBallInteraction();
+  }
+  animationId = requestAnimationFrame(animateBall);
 }
 
 
@@ -265,7 +273,8 @@ function startGame() {
 
   document.getElementById('start-game').style.display = "none";
   panImage.style.display = "block";
-  animateBall();
+
+  let animationId = requestAnimationFrame(animateBall);
 
   setInterval(checkBallInteraction, 100);
 }
