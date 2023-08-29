@@ -358,27 +358,6 @@ h1 {
   background-image: url(/images/curves.svg);
 }
 
-.dark-mode {
-  background-color: #ffffff;
-  color: #333;
-}
-
-.toggle-dark-mode {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  color: #f5f5f5;
-  cursor: pointer;
-  animation: gradient 15s ease infinite;
-  box-shadow: #000 0px 0px 15px;
-}
-
 /* Responsive Styles */
 @media only screen and (max-width: 768px) {
   h1 {
@@ -392,18 +371,6 @@ h1 {
 
   .hero-text {
     font-size: 50px;
-  }
-
-  .spacer {
-    aspect-ratio: 540/960;
-    width: auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-  }
-  
-  .layer1 {
-    background-image: url(/images/moblie\ curves.svg);
   }
 }
 
