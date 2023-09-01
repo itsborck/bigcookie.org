@@ -1,3 +1,23 @@
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+document.onkeydown = (e) => {
+  if (e.key == 123) {
+      e.preventDefault();
+  }
+  if (e.ctrlKey && e.shiftKey && e.key == 'I') {
+      e.preventDefault();
+  }
+  if (e.ctrlKey && e.shiftKey && e.key == 'C') {
+      e.preventDefault();
+  }
+  if (e.ctrlKey && e.shiftKey && e.key == 'J') {
+      e.preventDefault();
+  }
+  if (e.ctrlKey && e.key == 'U') {
+      e.preventDefault();
+  }
+};
+
 var firebaseConfig = {
   apiKey: "AIzaSyCplI9U1goCZKToI0xGnLfJn4XsgqkhTHM",
   authDomain: "leaderboard-44fa9.firebaseapp.com",
@@ -203,7 +223,7 @@ function isMouseOverElement() {
 let animationId;
 
 let lastTimestamp = 0;
-const frameInterval = 1000 / 60; // 60 FPS
+const frameInterval = 1000 / 144; // 60 FPS
 
 function animateBall(timestamp) {
   if (!isGameOver && timestamp - lastTimestamp >= frameInterval) {
