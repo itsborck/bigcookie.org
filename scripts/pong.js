@@ -19,7 +19,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
-var scoresRef = database.ref("scores");
+var gameStateRef = database.ref('gameState');
+var playersRef = database.ref('players');
 
 document.getElementById('google-signin').addEventListener('click', () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -56,66 +57,31 @@ document.getElementById('sign-out-button').addEventListener('click', () => {
     });
 });
 
+let currentPlayer = null;
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        // Create a player object for the authenticated user
-        const player = {
-            userId: user.uid,
+        var playerData = {
+            uid: user.uid,
             displayName: user.displayName,
-            paddleY: screenHeight / 2 - leftPaddleImage.height / 2,
+            leftPaddleY: screenHeight / 2 - leftPaddleImage.height / 2,
         };
-
-        // Add the player to the players list in the database
-        const newPlayerRef = playersRef.push(player);
-
-        // Listen for changes to the player's paddle position
-        newPlayerRef.child("paddleY").on("value", (snapshot) => {
-            leftPaddleY = snapshot.val();
-            updateLeftPaddlePosition();
-        });
-
-        // Listen for changes to the opponent's paddle position
-        playersRef
-            .child(newPlayerRef.key === "player1" ? "player2" : "player1")
-            .child("paddleY")
-            .on("value", (snapshot) => {
-                rightPaddleY = snapshot.val();
-                updateRightPaddlePosition();
-            });
-
-        // Start the game when both players are present
-        playersRef.once("value", (snapshot) => {
-            if (snapshot.numChildren() === 2) {
-                startGame();
-            }
-        });
-
-        // Handle user sign-out
-        document.getElementById("sign-out-button").addEventListener("click", () => {
-            // Remove the player from the database
-            newPlayerRef.remove();
-
-            firebase.auth().signOut().then(() => {
-                // Reset UI after sign out
-                document.getElementById("user-name").textContent = "";
-                document.getElementById("google-signin").style.display = "block";
-                document.getElementById("sign-out-button").style.display = "none";
-
-                // Reload the game to start over
-                window.location.reload();
-            }).catch((error) => {
-                console.error(error);
-            });
-        });
+        playersRef.child(user.uid).set(currentPlayer);
+        document.getElementById("user-name").textContent = "Hello, " + user.displayName;
+        document.getElementById('google-signin').style.display = 'none';
+        document.getElementById('sign-out-button').style.display = 'block';
+        document.getElementById('start-game').style.display = 'block';
     } else {
-        // User is not signed in
+      // User is not signed in
+        if (currentPlayer) {
+            playersRef.child(currentPlayer.uid).remove();
+        }
+        currentPlayer = null;
         document.getElementById("user-name").textContent = "";
-        document.getElementById("google-signin").style.display = "block";
-        document.getElementById("sign-out-button").style.display = "none";
-        document.getElementById("start-game").style.display = "none";
+        document.getElementById('google-signin').style.display = 'block';  
+        document.getElementById('sign-out-button').style.display = 'none';
+        document.getElementById('start-game').style.display = 'none';
     }
 });
-
 
     window.addEventListener("load", function() {
     var preloader = document.querySelector(".preloader");
@@ -157,24 +123,15 @@ let rightPaddleX = screenWidth - rightPaddleImage.width;
 let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
-//Multiplayer
-const gameRef = database.ref("game");
-const playersRef = database.ref("players");
-const ballRef = database.ref("ball");
-const leftPaddleRef = database.ref("leftPaddle");
-const rightPaddleRef = database.ref("rightPaddle");
-
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // Left paddle movement
-document.addEventListener("mousemove", (event) => {
+document.addEventListener('mousemove', (event) => {
     const mouseY = event.clientY;
     leftPaddleY = mouseY - leftPaddleImage.height / 2;
 
     if (leftPaddleY >= 60) {
-        updateLeftPaddlePosition();
-        // Update the paddle position in the database
-        playersRef.child("player1").child("paddleY").set(leftPaddleY);
+        leftPaddleImage.style.top = `${leftPaddleY}px`;
     } else {
         leftPaddleImage.style.top = "60px";
     }
@@ -205,9 +162,15 @@ function animateRightPaddle() {
         moveRightPaddle(-3.5);
     }
 
+    gameStateRef.update({
+        rightPaddleX: rightPaddleX,
+        rightPaddleY: rightPaddleY,
+    });
+
     rightPaddleAnimationId = requestAnimationFrame(animateRightPaddle); 
     // cancelAnimationFrame(animationId); //cancel the animation stop the ball
 }
+
 
 
 
@@ -252,7 +215,26 @@ function animateBall(timestamp) {
         ballRect = ballImage.getBoundingClientRect();
         leftPaddleRect = leftPaddleImage.getBoundingClientRect();
         rightPaddleRect = rightPaddleImage.getBoundingClientRect();
-    
+
+        gameStateRef.update({
+            ballX: ballX,
+            ballY: ballY,
+            ballVelX: ballVelX,
+            ballVelY: ballVelY,
+        });
+
+        playersRef.on('value', function (snapshot) {
+            const gameState = snapshot.val();
+        
+            if (gameState) {
+                ballX = gameState.ballX;
+                ballY = gameState.ballY;
+                ballVelX = gameState.ballVelX;
+                ballVelY = gameState.ballVelY;
+        
+                rightPaddleX = gameState.rightPaddleX;
+                rightPaddleY = gameState.rightPaddleY;
+            }
         //collision detection
         if (ballY <= 0 || ballY + ballHeight >= screenHeight) {
             ballVelY *= -1;
@@ -272,14 +254,16 @@ function animateBall(timestamp) {
                 endGame();
             }
         }
+    
+        });
     }
-
 }
 
 function endGame() {
     cancelAnimationFrame(ballAnimationId);
     document.getElementById('sign-out-button').style.display = 'block';
     document.getElementById('start-game').style.display = 'block';
+    gameStateRef.remove();
 }
 
 
@@ -287,6 +271,15 @@ function resetGame(){
     cancelAnimationFrame(ballAnimationId);
     screenWidth = window.innerWidth;
     screenHeight = window.innerHeight - 60;
+
+    gameStateRef.set({
+        ballX: ballX,
+        ballY: ballY,
+        ballVelX: ballVelX,
+        ballVelY: ballVelY,
+        rightPaddleX: rightPaddleX,
+        rightPaddleY: rightPaddleY,
+    });
 
     ballX = screenWidth/2 - ballWidth/2;
     ballY = screenHeight/2 - ballHeight/2;
@@ -312,7 +305,7 @@ function startGame() {
     document.getElementById('sign-out-button').style.display = 'none';
     document.getElementById('start-game').style.display = 'none';
 
-    requestAnimationFrame(limitFrameRate);
+    requestAnimationFrame(animateBall);
 }
 
 updateBallPosition();
