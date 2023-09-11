@@ -58,18 +58,64 @@ document.getElementById('sign-out-button').addEventListener('click', () => {
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-    document.getElementById("user-name").textContent = "Hello, " + user.displayName;
-    document.getElementById('google-signin').style.display = 'none';
-    document.getElementById('sign-out-button').style.display = 'block';
-    document.getElementById('start-game').style.display = 'block';
+        // Create a player object for the authenticated user
+        const player = {
+            userId: user.uid,
+            displayName: user.displayName,
+            paddleY: screenHeight / 2 - leftPaddleImage.height / 2,
+        };
+
+        // Add the player to the players list in the database
+        const newPlayerRef = playersRef.push(player);
+
+        // Listen for changes to the player's paddle position
+        newPlayerRef.child("paddleY").on("value", (snapshot) => {
+            leftPaddleY = snapshot.val();
+            updateLeftPaddlePosition();
+        });
+
+        // Listen for changes to the opponent's paddle position
+        playersRef
+            .child(newPlayerRef.key === "player1" ? "player2" : "player1")
+            .child("paddleY")
+            .on("value", (snapshot) => {
+                rightPaddleY = snapshot.val();
+                updateRightPaddlePosition();
+            });
+
+        // Start the game when both players are present
+        playersRef.once("value", (snapshot) => {
+            if (snapshot.numChildren() === 2) {
+                startGame();
+            }
+        });
+
+        // Handle user sign-out
+        document.getElementById("sign-out-button").addEventListener("click", () => {
+            // Remove the player from the database
+            newPlayerRef.remove();
+
+            firebase.auth().signOut().then(() => {
+                // Reset UI after sign out
+                document.getElementById("user-name").textContent = "";
+                document.getElementById("google-signin").style.display = "block";
+                document.getElementById("sign-out-button").style.display = "none";
+
+                // Reload the game to start over
+                window.location.reload();
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
     } else {
-      // User is not signed in
-    document.getElementById("user-name").textContent = "";
-    document.getElementById('google-signin').style.display = 'block';  
-    document.getElementById('sign-out-button').style.display = 'none';
-    document.getElementById('start-game').style.display = 'none';
+        // User is not signed in
+        document.getElementById("user-name").textContent = "";
+        document.getElementById("google-signin").style.display = "block";
+        document.getElementById("sign-out-button").style.display = "none";
+        document.getElementById("start-game").style.display = "none";
     }
 });
+
 
     window.addEventListener("load", function() {
     var preloader = document.querySelector(".preloader");
@@ -111,15 +157,24 @@ let rightPaddleX = screenWidth - rightPaddleImage.width;
 let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
+//Multiplayer
+const gameRef = database.ref("game");
+const playersRef = database.ref("players");
+const ballRef = database.ref("ball");
+const leftPaddleRef = database.ref("leftPaddle");
+const rightPaddleRef = database.ref("rightPaddle");
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // Left paddle movement
-document.addEventListener('mousemove', (event) => {
+document.addEventListener("mousemove", (event) => {
     const mouseY = event.clientY;
     leftPaddleY = mouseY - leftPaddleImage.height / 2;
 
     if (leftPaddleY >= 60) {
-        leftPaddleImage.style.top = `${leftPaddleY}px`;
+        updateLeftPaddlePosition();
+        // Update the paddle position in the database
+        playersRef.child("player1").child("paddleY").set(leftPaddleY);
     } else {
         leftPaddleImage.style.top = "60px";
     }
@@ -153,7 +208,6 @@ function animateRightPaddle() {
     rightPaddleAnimationId = requestAnimationFrame(animateRightPaddle); 
     // cancelAnimationFrame(animationId); //cancel the animation stop the ball
 }
-
 
 
 

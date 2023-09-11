@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html oncontextmenu="return false">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <title>Games - Big Cookie</title>
-  <meta content="Big Cookie Games" property="og:title" />
+  <title>Pong - Big Cookie</title>
+  <meta content="Big Cookie Pong" property="og:title" />
   <meta content="big cookie" property="og:description" />
-  <meta content="https://bigcookie.org/games" property="og:url" />
-  <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
+  <meta content="https://bigcookie.org/pong" property="og:url" />
+  <meta content="https://bigcookie.org/images/bigcookieOG" property="og:image" />
   <meta content="website" property="og:type" />
   <meta content="#43B581" data-react-helmet="true" name="theme-color" />
   <meta content="Big Cookie Games" name="twitter:title">
@@ -19,10 +19,16 @@
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
   <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/pong.css" rel="stylesheet" type="text/css">
   <link href="favicon.png" rel="icon"/>
 </head>
 
-<body>
+<body id="body">
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+
   <div class="preloader">
     <div class="loader">
       <img src="favicon.png">
@@ -50,24 +56,20 @@
     </nav>
   </header>
 
-  <div class="hero-image">
-    <div class="hero-text">
-      <div class="slide-down">
-        <div>Big Cookie Games</div>
-      </div>
+  <div id="user-info">
+    <p id="user-name"></p>
+    <div id="auth-buttons">
+      <button id="sign-out-button">Sign Out</button>
+      <button class="google-signin" id="google-signin">Sign in with Google</button>
     </div>
   </div>
 
-  <div class="line"></div>
-
-  <div class="column">
-    <p><a href="https://bigcookie.org/games/cattennis"><img src="images/cattennis/cattennislogo.png" style="width:10%"></a></p>
-  </div>
-
-  <div class="cattenniscolumn">
-    <a href="https://bigcookie.org/games/cattennis"><i class="fa-solid fa-gamepad fa-xs"></i> Play Cat Tennis</a>
-  </div>
+  <img src="images/cattennis/cookieball.png" alt="Ball" class="ball" id="ball">
+  <img src="images/pong/pongpaddle.png" alt="Paddle" class="paddle" id="paddle">
+  <img src="images/pong/pongpaddle.png" alt="Paddle" class="paddle" id="paddle2">
   
-  <script src="scripts/script.js"></script>
+  <script src="scripts/pong.js"></script>
+
+  <button class="start-button" id="start-game" onclick="startGame()">Start Game</button>
 </body>
 </html>
