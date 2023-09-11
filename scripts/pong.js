@@ -2,7 +2,81 @@
 window.addEventListener("load", function() {
     var preloader = document.querySelector(".preloader");
     preloader.classList.add("hide");
-  });
+});
+
+//firebase :3
+var firebaseConfig = {
+    apiKey: "AIzaSyCplI9U1goCZKToI0xGnLfJn4XsgqkhTHM",
+    authDomain: "leaderboard-44fa9.firebaseapp.com",
+    databaseURL: "https://leaderboard-44fa9-default-rtdb.firebaseio.com",
+    projectId: "leaderboard-44fa9",
+    storageBucket: "leaderboard-44fa9.appspot.com",
+    messagingSenderId: "799491604833",
+    appId: "1:799491604833:web:9e9bbff6701edd15cd0520",
+    measurementId: "G-GMW6Y7SH34"
+};
+  // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+var database = firebase.database();
+var scoresRef = database.ref("scores");
+
+document.getElementById('google-signin').addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+        // Handle successful sign-in
+        const user = result.user;
+        document.getElementById("user-name").textContent = "Hello, " + user.displayName;
+
+        // Hide the sign-in button
+        document.getElementById('google-signin').style.display = 'none';
+        // Show the sign-out button
+        document.getElementById('sign-out-button').style.display = 'block';
+
+        window.location.reload();
+    })
+    .catch((error) => {
+        // Handle errors
+        console.error(error);
+    });
+});
+
+document.getElementById('sign-out-button').addEventListener('click', () => {
+    firebase.auth().signOut().then(() => {
+      // Reset UI after sign out
+    document.getElementById("user-name").textContent = "";
+    document.getElementById('google-signin').style.display = 'block';
+    document.getElementById('sign-out-button').style.display = 'none';
+
+    window.location.reload();
+    })
+    .catch((error) => {
+    console.error(error);
+    });
+});
+
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+    document.getElementById("user-name").textContent = "Hello, " + user.displayName;
+    document.getElementById('google-signin').style.display = 'none';
+    document.getElementById('sign-out-button').style.display = 'block';
+    document.getElementById('start-game').style.display = 'block';
+    } else {
+      // User is not signed in
+    document.getElementById("user-name").textContent = "";
+    document.getElementById('google-signin').style.display = 'block';  
+    document.getElementById('sign-out-button').style.display = 'none';
+    document.getElementById('start-game').style.display = 'none';
+    }
+});
+
+    window.addEventListener("load", function() {
+    var preloader = document.querySelector(".preloader");
+    preloader.classList.add("hide");
+    
+    this.setTimeout(playTennisTheme, 1000);
+});
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // images
