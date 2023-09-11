@@ -5,16 +5,16 @@ window.addEventListener("load", function() {
 });
 
 //firebase :3
-var firebaseConfig = {
-    apiKey: "AIzaSyCplI9U1goCZKToI0xGnLfJn4XsgqkhTHM",
-    authDomain: "leaderboard-44fa9.firebaseapp.com",
-    databaseURL: "https://leaderboard-44fa9-default-rtdb.firebaseio.com",
-    projectId: "leaderboard-44fa9",
-    storageBucket: "leaderboard-44fa9.appspot.com",
-    messagingSenderId: "799491604833",
-    appId: "1:799491604833:web:9e9bbff6701edd15cd0520",
-    measurementId: "G-GMW6Y7SH34"
-};
+const firebaseConfig = {
+    apiKey: "AIzaSyA1Qba6Nd3D5M-DhG8769JS9i2XtANSDRc",
+    authDomain: "big-cookie-pong.firebaseapp.com",
+    databaseURL: "https://big-cookie-pong-default-rtdb.firebaseio.com",
+    projectId: "big-cookie-pong",
+    storageBucket: "big-cookie-pong.appspot.com",
+    messagingSenderId: "192798267244",
+    appId: "1:192798267244:web:788c27de5c4f10b1614549",
+    measurementId: "G-R9ZC7D8SBE"
+  };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
@@ -75,7 +75,6 @@ firebase.auth().onAuthStateChanged((user) => {
     var preloader = document.querySelector(".preloader");
     preloader.classList.add("hide");
     
-    this.setTimeout(playTennisTheme, 1000);
 });
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -225,6 +224,8 @@ function animateBall(timestamp) {
 
 function endGame() {
     cancelAnimationFrame(ballAnimationId);
+    document.getElementById('sign-out-button').style.display = 'block';
+    document.getElementById('start-game').style.display = 'block';
 }
 
 
@@ -254,6 +255,8 @@ function startGame() {
 
     leftPaddleImage.style.display = "block";
     rightPaddleImage.style.display = "block";
+    document.getElementById('sign-out-button').style.display = 'none';
+    document.getElementById('start-game').style.display = 'none';
 
     requestAnimationFrame(limitFrameRate);
 }
