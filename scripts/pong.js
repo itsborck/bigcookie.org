@@ -4,104 +4,169 @@ window.addEventListener("load", function() {
     preloader.classList.add("hide");
   });
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+// images
+const ballImage = document.getElementById("ball");
+const leftPaddleImage = document.getElementById("paddle");
+const rightPaddleImage = document.getElementById("paddle2");
+
+// screen size
 let screenWidth = window.innerWidth;
-let screenHeight = window.innerHeight;
+let screenHeight = window.innerHeight - 60;
 
 // Ball setup
-const ballImage = document.getElementById("ball");
+let ballWidth = 75;
+let ballHeight = 75;
+ballImage.width = ballWidth;
+ballImage.height = ballHeight;
 
-let ballwidth = 75;
-let ballheight = 75;
-ballImage.width = ballwidth;
-ballImage.height = ballheight;
+let ballX = screenWidth/2 - ballWidth/2;
+let ballY = screenHeight/2 - ballHeight/2;
 
-let ballX = (screenWidth - ballImage.width) / 2;
-let ballY = 20;
+let ballVelX = -screenWidth/480;
+let ballVelY = screenHeight/270;
 
-let ballVelX = -4;
-let ballVelY = 4;
+// Left paddle setup
+let leftPaddleX = 0;
+let leftPaddleY;
 
-function updateBallPosition() {
-ballImage.style.transform = `translate(${ballX}px, ${ballY}px)`;
-}
+// Right paddle setup
+let rightPaddleY = ballY - ballHeight/2;
+let rightPaddleX = screenWidth - rightPaddleImage.width;
 
-function moveBall(dx, dy) {
-ballX += dx;
-ballY -= dy;
-updateBallPosition();
-}
 
-let ballAnimationId;
-function animateBall() {
-    moveBall(ballVelX, ballVelY);
-    if (ballX + (ballwidth/2) >= screenWidth){
-        ballVelX = -ballVelX; 
-    } else if (ballX + (ballwidth/2) <= 0){
-        ballVelX = -ballVelX;
-    } else if (ballY + (ballheight/2) >= screenHeight){
-        ballVelY = -ballVelY;
-    } else if (ballY + (ballheight/2) <= 0){
-        ballVelY = -ballVelY;
-    }
-    ballAnimationId = requestAnimationFrame(animateBall); 
-    // cancelAnimationFrame(animationId); //cancel the animation stop the ball
-}
-
-//pan setup
-const leftPanImage = document.getElementById("racket");
-const rightPanImage = document.getElementById("racket2");
-// Mousemove event to move the racket (pan) along with the cursor
-document.addEventListener("mousemove", (event) => {
-    const mouseX = event.clientX;
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+// Left paddle movement
+document.addEventListener('mousemove', (event) => {
     const mouseY = event.clientY;
+    leftPaddleY = mouseY - leftPaddleImage.height / 2;
 
-    leftPanImage.style.top = `${mouseY}px`;
-    leftPanImage.style.left = `${10}px`; // Uncomment this line to lock the racket to the bottom of the screen
+    if (leftPaddleY >= 60) {
+        leftPaddleImage.style.top = `${leftPaddleY}px`;
+    } else {
+        leftPaddleImage.style.top = "60px";
+    }
 });
 
-let OpponentPanY = ballY + 50;
-let OpponentPanX = screenWidth - 10;
-let OpponentPanVelX = 0;
-let OpponentPanVelY = 0;
-
-function updateOpponentPanPosition() {
-    rightPanImage.style.transform = `translate(${OpponentPanX}px, ${OpponentPanY}px)`;
+// Right paddle movement
+function updateRightPaddlePosition() {
+    if (rightPaddleY >= 60) {
+        rightPaddleImage.style.top = `${rightPaddleY}px`;
+        rightPaddleImage.style.left = `${rightPaddleX}px`;
+    } else {
+        rightPaddleImage.style.top = "60px";
+        rightPaddleImage.style.left = `${rightPaddleX}px`;
+    }
 }
 
-function moveOpponentPan(dy) {
-    OpponentPanY -= dy;
-    updateOpponentPanPosition();
+function moveRightPaddle(dy) {
+    rightPaddleY += dy;
+    updateRightPaddlePosition();
 }
 
 //you get the point
-let opponentPanAnimationId;
-function animateOpponentPan() {
-    if (ballY > OpponentPanY) {
-        moveOpponentPan(-3.5);
-    } else if (ballY < OpponentPanY) {
-        moveOpponentPan(3.5);
+let rightPaddleAnimationId;
+function animateRightPaddle() {
+    if (ballY > rightPaddleY) {
+        moveRightPaddle(3.5);
+    } else if (ballY < rightPaddleY) {
+        moveRightPaddle(-3.5);
     }
 
-    opponentPanAnimationIdAnimationId = requestAnimationFrame(animateOpponentPan); 
+    rightPaddleAnimationId = requestAnimationFrame(animateRightPaddle); 
     // cancelAnimationFrame(animationId); //cancel the animation stop the ball
 }
 
 
 
 
-updateBallPosition();
-updateOpponentPanPosition();
-let gameOver = false;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+function updateBallPosition() {
+    ballImage.style.transform = `translate(${ballX}px, ${ballY}px)`;
+}
+
+function moveBall(dx, dy) {
+    ballX += dx;
+    ballY -= dy;
+    updateBallPosition();
+}
+
+let ballAnimationId;
+let ballRect = ballImage.getBoundingClientRect();
+let leftPaddleRect = leftPaddleImage.getBoundingClientRect();
+let rightPaddleRect = rightPaddleImage.getBoundingClientRect();
+
+function animateBall() {
+    ballAnimationId = requestAnimationFrame(animateBall);
+    moveBall(ballVelX, ballVelY);
+    ballRect = ballImage.getBoundingClientRect();
+    leftPaddleRect = leftPaddleImage.getBoundingClientRect();
+    rightPaddleRect = rightPaddleImage.getBoundingClientRect();
+    
+    //collision detection
+    if (ballY <= 0 || ballY + ballHeight >= screenHeight) {
+        ballVelY *= -1;
+    }
+
+    if (ballX <= 0){
+        if (ballRect.bottom >= leftPaddleRect.top && ballRect.top <= leftPaddleRect.bottom){
+            ballVelX *= -1;
+        } else {
+            cancelAnimationFrame(ballAnimationId);
+        }
+    }
+    if (ballX + ballWidth >= screenWidth){
+        if (ballRect.bottom >= rightPaddleRect.top && ballRect.top <= rightPaddleRect.bottom){
+            ballVelX *= -1;
+        } else {
+            cancelAnimationFrame(ballAnimationId);
+        }
+    }
+}
+
+
+
+
+function resetGame(){
+    cancelAnimationFrame(ballAnimationId);
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight - 60;
+
+    ballX = screenWidth/2 - ballWidth/2;
+    ballY = screenHeight/2 - ballHeight/2;
+    ballVelX = -screenWidth/480;
+    ballVelY = screenHeight/270;
+    leftPaddleY = screenHeight/2 - leftPaddleImage.height/2;
+    rightPaddleX = screenWidth - rightPaddleImage.width;
+    rightPaddleY = screenHeight/2 - rightPaddleImage.height/2;
+    updateBallPosition();
+    updateRightPaddlePosition();
+    animateBall();
+    animateRightPaddle();
+}
 
 // Start the game
 function startGame() {
-    updateBallPosition();
-    updateOpponentPanPosition();
+    resetGame();
 
-    leftPanImage.style.display = "block";
-    rightPanImage.style.display = "block";
-    animateBall();
-    animateOpponentPan();
+    leftPaddleImage.style.display = "block";
+    rightPaddleImage.style.display = "block";
 }
+
+updateBallPosition();
+updateRightPaddlePosition();
+animateRightPaddle();
