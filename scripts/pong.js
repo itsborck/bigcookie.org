@@ -60,12 +60,13 @@ document.getElementById('sign-out-button').addEventListener('click', () => {
 let currentPlayer = null;
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        var playerData = {
+        currentPlayer = {
             uid: user.uid,
             displayName: user.displayName,
             leftPaddleY: screenHeight / 2 - leftPaddleImage.height / 2,
         };
         playersRef.child(user.uid).set(currentPlayer);
+        onlinePlayersRef.child(user.uid).set(true);
         document.getElementById("user-name").textContent = "Hello, " + user.displayName;
         document.getElementById('google-signin').style.display = 'none';
         document.getElementById('sign-out-button').style.display = 'block';
@@ -74,6 +75,7 @@ firebase.auth().onAuthStateChanged((user) => {
       // User is not signed in
         if (currentPlayer) {
             playersRef.child(currentPlayer.uid).remove();
+            onlinePlayersRef.child(currentPlayer.uid).remove();
         }
         currentPlayer = null;
         document.getElementById("user-name").textContent = "";
@@ -123,7 +125,7 @@ let rightPaddleX = screenWidth - rightPaddleImage.width;
 let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
-
+const onlinePlayersRef = database.ref('onlinePlayers');
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // Left paddle movement
 document.addEventListener('mousemove', (event) => {
@@ -171,9 +173,14 @@ function animateRightPaddle() {
     // cancelAnimationFrame(animationId); //cancel the animation stop the ball
 }
 
+function listenForOnlinePlayerCount() {
+    onlinePlayersRef.on("value", function (snapshot) {
+        const onlinePlayers = snapshot.numChildren();
+        document.getElementById("online-player-count").textContent = `Online Players: ${onlinePlayers}`;
+    });
+}
 
-
-
+listenForOnlinePlayerCount();
 
 
 
