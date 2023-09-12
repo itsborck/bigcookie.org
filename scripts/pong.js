@@ -300,6 +300,10 @@ function endGame() {
     gameStateRef.remove();
 }
 
+function backButton() {
+    window.location.reload();
+}
+
 document.getElementById('start-game').addEventListener('click', () => {
     initializeGameState();
     gameStateRef.set(gameState);
@@ -351,6 +355,11 @@ function startGame() {
 
     requestAnimationFrame(animateBall);
 }
+
+// need to add AI game
+// function startGameAI() {
+
+// }
 
 updateBallPosition();
 updateRightPaddlePosition();
