@@ -179,19 +179,28 @@ function updateRightPaddlePosition() {
     }
 }
 
-function moveRightPaddle(dy) {
-    rightPaddleY += dy;
+function moveRightPaddle() {
+    // rightPaddleY = 0;
+ 
+    const ref = database.ref('players/' + "sCseP3BvGIgtIdg4z6Rgk0b6mGz2")
+    ref.on('value', (snapshot) => {
+        const player = snapshot.val();
+        if (player) {
+            rightPaddleY = player.leftPaddleY;
+        }
+    });
+    
+
+
     updateRightPaddlePosition();
 }
+
+
 
 //you get the point
 let rightPaddleAnimationId;
 function animateRightPaddle() {
-    if (ballY > rightPaddleY) {
-        moveRightPaddle(3.5);
-    } else if (ballY < rightPaddleY) {
-        moveRightPaddle(-3.5);
-    }
+    moveRightPaddle();
 
     gameState.rightPaddleX = rightPaddleX;
     gameState.rightPaddleY = rightPaddleY;
