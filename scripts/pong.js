@@ -142,6 +142,8 @@ let rightPaddleX = screenWidth - rightPaddleImage.width;
 let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
+let gameStarted = false;
+
 let gameState = {
     ballX: screenWidth / 2 - ballWidth / 2,
     ballY: screenHeight / 2 - ballHeight / 2,
@@ -158,7 +160,9 @@ document.addEventListener('mousemove', (event) => {
     const mouseY = event.clientY;
     leftPaddleY = mouseY - leftPaddleImage.height / 2;
     //push leftPaddleY to database
+    if (gameStarted) {
     playersRef.child(currentPlayer.uid).update({leftPaddleY: leftPaddleY});
+    }
     
 
     if (leftPaddleY >= 60) {
@@ -181,21 +185,32 @@ function updateRightPaddlePosition() {
 
 function moveRightPaddle() {
     // rightPaddleY = 0;
- 
-    const ref = database.ref('players/' + "sCseP3BvGIgtIdg4z6Rgk0b6mGz2")
-    ref.on('value', (snapshot) => {
-        const player = snapshot.val();
-        if (player) {
-            rightPaddleY = player.leftPaddleY;
-        }
-    });
-    
+    if (gameStarted) {
+        const ref = database.ref('players/' + "sCseP3BvGIgtIdg4z6Rgk0b6mGz2")
+        ref.on('value', (snapshot) => {
+            const player = snapshot.val();
+            if (player) {
+                rightPaddleY = player.leftPaddleY;
+            }
+        });
+    }
 
 
     updateRightPaddlePosition();
 }
 
+gameStateRef.on("value", function (snapshot) {
+    const gameState = snapshot.val();
+    if (gameState) {
+        // Update the local game state based on changes in Firebase
+        ballX = gameState.ballX;
+        ballY = gameState.ballY;
+        ballVelX = gameState.ballVelX;
+        ballVelY = gameState.ballVelY;
 
+        // ... Other game state updates ...
+    }
+});
 
 //you get the point
 let rightPaddleAnimationId;
@@ -260,10 +275,10 @@ function animateBall(timestamp) {
         leftPaddleRect = leftPaddleImage.getBoundingClientRect();
         rightPaddleRect = rightPaddleImage.getBoundingClientRect();
 
-        gameStateRef.ballX = ballX;
-        gameStateRef.ballY = ballY;
-        gameStateRef.ballVelX = ballVelX;
-        gameStateRef.ballVelY = ballVelY;
+        gameState.ballX = ballX;
+        gameState.ballY = ballY;
+        gameState.ballVelX = ballVelX;
+        gameState.ballVelY = ballVelY;
 
         gameStateRef.update(gameState);
 
@@ -313,13 +328,6 @@ function backButton() {
     window.location.reload();
 }
 
-document.getElementById('start-game').addEventListener('click', () => {
-    initializeGameState();
-    gameStateRef.set(gameState);
-    startGame();
-});
-
-
 function resetGame(){
     cancelAnimationFrame(ballAnimationId);
     screenWidth = window.innerWidth;
@@ -350,6 +358,9 @@ function resetGame(){
 // Start the game
 function startGame() {
     resetGame();
+    initializeGameState();
+    gameStateRef.set(gameState);
+    gameStarted = true; // Set the game as started 
     lastTimestamp = performance.now();
     animateBall(lastTimestamp);
 
