@@ -143,6 +143,7 @@ let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
 let gameStarted = false;
+let gameOver = false;
 
 let gameState = {
     ballX: screenWidth / 2 - ballWidth / 2,
@@ -186,7 +187,7 @@ function updateRightPaddlePosition() {
 function moveRightPaddle() {
     // rightPaddleY = 0;
     if (gameStarted) {
-        const ref = database.ref('players/' + "sCseP3BvGIgtIdg4z6Rgk0b6mGz2")
+        const ref = database.ref('players/' + "y03W3w6FZkOIJUHl6OxMes2goal2")
         ref.on('value', (snapshot) => {
             const player = snapshot.val();
             if (player) {
@@ -274,13 +275,14 @@ function animateBall(timestamp) {
         ballRect = ballImage.getBoundingClientRect();
         leftPaddleRect = leftPaddleImage.getBoundingClientRect();
         rightPaddleRect = rightPaddleImage.getBoundingClientRect();
+        if (!gameOver) {
+            gameState.ballX = ballX;
+            gameState.ballY = ballY;
+            gameState.ballVelX = ballVelX;
+            gameState.ballVelY = ballVelY;
 
-        gameState.ballX = ballX;
-        gameState.ballY = ballY;
-        gameState.ballVelX = ballVelX;
-        gameState.ballVelY = ballVelY;
-
-        gameStateRef.update(gameState);
+            gameStateRef.update(gameState);
+        }
 
         playersRef.on('value', function (snapshot) {
             const gameState = snapshot.val();
@@ -322,6 +324,8 @@ function endGame() {
     document.getElementById('ball').style.display = 'none';
     document.getElementById('back-button').style.display = 'none';
     gameStateRef.remove();
+    gameStarted = false;
+    gameOver = true;
 }
 
 function backButton() {
@@ -371,7 +375,7 @@ function startGame() {
     document.getElementById('start-game-ai').style.display = 'none';
     document.getElementById('online-player-count').style.display = 'none';
     document.getElementById('ball').style.display = 'block';
-    document.getElementById('back-button').style.display = 'block';
+    document.getElementById('back-button').style.display = 'none';
 
     requestAnimationFrame(animateBall);
 }
