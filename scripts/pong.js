@@ -71,6 +71,10 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('google-signin').style.display = 'none';
         document.getElementById('sign-out-button').style.display = 'block';
         document.getElementById('start-game').style.display = 'block';
+        document.getElementById('paddle').style.display = 'none';
+        document.getElementById('paddle2').style.display = 'none';
+        document.getElementById('ball').style.display = 'none';
+        document.getElementById('back-button').style.display = 'none';
     } else {
       // User is not signed in
         if (currentPlayer) {
@@ -82,6 +86,11 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('google-signin').style.display = 'block';  
         document.getElementById('sign-out-button').style.display = 'none';
         document.getElementById('start-game').style.display = 'none';
+        document.getElementById('start-game-ai').style.display = 'none';
+        document.getElementById('paddle').style.display = 'none';
+        document.getElementById('paddle2').style.display = 'none';
+        document.getElementById('ball').style.display = 'none';
+        document.getElementById('back-button').style.display = 'none';
     }
 });
 
@@ -191,17 +200,16 @@ function listenForOnlinePlayerCount() {
 
 listenForOnlinePlayerCount();
 
-
-
-
-
-
-
-
-
-
-
-
+function initializeGameState() {
+    gameState = {
+        ballX: screenWidth / 2 - ballWidth / 2,
+        ballY: screenHeight / 2 - ballHeight / 2,
+        ballVelX: -screenWidth / 480,
+        ballVelY: screenHeight / 270,
+        rightPaddleX: screenWidth - rightPaddleImage.width,
+        rightPaddleY: screenHeight / 2 - rightPaddleImage.height / 2,
+    };
+}
 
 
 
@@ -274,8 +282,18 @@ function endGame() {
     document.getElementById('start-game').style.display = 'block';
     document.getElementById('start-game-ai').style.display = 'block';
     document.getElementById('online-player-count').style.display = 'block';
-    gameStateRef.remove(gameStateRef);
+    document.getElementById('paddle').style.display = 'none';
+    document.getElementById('paddle2').style.display = 'none';
+    document.getElementById('ball').style.display = 'none';
+    document.getElementById('back-button').style.display = 'none';
+    gameStateRef.remove();
 }
+
+document.getElementById('start-game').addEventListener('click', () => {
+    initializeGameState();
+    gameStateRef.set(gameState);
+    startGame();
+});
 
 
 function resetGame(){
@@ -317,6 +335,8 @@ function startGame() {
     document.getElementById('start-game').style.display = 'none';
     document.getElementById('start-game-ai').style.display = 'none';
     document.getElementById('online-player-count').style.display = 'none';
+    document.getElementById('ball').style.display = 'block';
+    document.getElementById('back-button').style.display = 'block';
 
     requestAnimationFrame(animateBall);
 }
