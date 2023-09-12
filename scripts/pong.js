@@ -371,6 +371,8 @@ function resetGame(){
 }
 
 // Start the game
+// ...
+
 async function startGame() {
     resetGame();
     initializeGameState();
@@ -398,6 +400,9 @@ async function startGame() {
         // Use opponentUid in moveRightPaddle function
         moveRightPaddle(opponentUid);
         
+        // Show the connecting screen
+        showConnectingScreen();
+
         // Add a countdown before the game starts
         let countdown = 3; // Adjust as needed
         let countdownInterval;
@@ -413,16 +418,19 @@ async function startGame() {
                     // Start the game when the countdown reaches 0
                     clearInterval(countdownInterval);
                     document.getElementById('countdown').textContent = '';
-                    startGame();
+                    hideConnectingScreen(); // Hide the connecting screen
+                    startGame(); // Start the game
                 }
             }, 1000); // Update countdown every 1 second
         }
+
+        // Start the countdown
+        startCountdown();
     } else {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
     }
 }
-
 
 
 async function findOpponent() {
