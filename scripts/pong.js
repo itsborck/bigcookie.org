@@ -157,6 +157,9 @@ const onlinePlayersRef = database.ref('onlinePlayers');
 document.addEventListener('mousemove', (event) => {
     const mouseY = event.clientY;
     leftPaddleY = mouseY - leftPaddleImage.height / 2;
+    //push leftPaddleY to database
+    playersRef.child(currentPlayer.uid).update({leftPaddleY: leftPaddleY});
+    
 
     if (leftPaddleY >= 60) {
         leftPaddleImage.style.top = `${leftPaddleY}px`;
