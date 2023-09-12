@@ -403,6 +403,9 @@ async function startGame() {
         // Show the connecting screen
         showConnectingScreen();
 
+        // Wait until both players are connected
+        await waitForBothPlayersConnected();
+
         // Add a countdown before the game starts
         let countdown = 3; // Adjust as needed
         let countdownInterval;
@@ -430,6 +433,21 @@ async function startGame() {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
     }
+}
+
+async function waitForBothPlayersConnected() {
+    return new Promise((resolve) => {
+        const playersConnectedRef = database.ref('playersConnected');
+
+        // Listen for changes in playersConnected
+        playersConnectedRef.on('value', (snapshot) => {
+            const playersConnected = snapshot.val();
+            if (playersConnected && Object.keys(playersConnected).length === 2) {
+                // Both players are connected, resolve the promise
+                resolve();
+            }
+        });
+    });
 }
 
 
