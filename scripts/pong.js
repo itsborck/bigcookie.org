@@ -100,6 +100,14 @@ firebase.auth().onAuthStateChanged((user) => {
     
 });
 
+window.onunload = function () {
+    if (currentPlayer) {
+        playersRef.child(currentPlayer.uid).remove();
+        onlinePlayersRef.child(currentPlayer.uid).remove();
+    }
+};
+
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // images
 const ballImage = document.getElementById("ball");
