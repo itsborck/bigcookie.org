@@ -157,21 +157,22 @@ let gameState = {
 const onlinePlayersRef = database.ref('onlinePlayers');
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // Left paddle movement
-document.addEventListener('mousemove', (event) => {
-    const mouseY = event.clientY;
-    leftPaddleY = mouseY - leftPaddleImage.height / 2;
-    //push leftPaddleY to database
+function handleMouseMove(event) {
     if (gameStarted) {
-    playersRef.child(currentPlayer.uid).update({leftPaddleY: leftPaddleY});
-    }
-    
+        const mouseY = event.clientY;
+        leftPaddleY = mouseY - leftPaddleImage.height / 2;
 
-    if (leftPaddleY >= 60) {
-        leftPaddleImage.style.top = `${leftPaddleY}px`;
-    } else {
-        leftPaddleImage.style.top = "60px";
+        // Push leftPaddleY to database
+        playersRef.child(currentPlayer.uid).update({ leftPaddleY: leftPaddleY });
+
+        if (leftPaddleY >= 60) {
+            leftPaddleImage.style.top = `${leftPaddleY}px`;
+        } else {
+            leftPaddleImage.style.top = "60px";
+        }
     }
-});
+}
+
 
 // Right paddle movement
 function updateRightPaddlePosition() {
@@ -184,10 +185,10 @@ function updateRightPaddlePosition() {
     }
 }
 
-function moveRightPaddle() {
+function moveRightPaddle(opponentUid) {
     // rightPaddleY = 0;
     if (gameStarted) {
-        const ref = database.ref('players/' + "y03W3w6FZkOIJUHl6OxMes2goal2")
+        const ref = database.ref('players/' + opponentUid)
         ref.on('value', (snapshot) => {
             const player = snapshot.val();
             if (player) {
@@ -360,46 +361,17 @@ function resetGame(){
 }
 
 // Start the game
-// function startGame() {
-//     resetGame();
-//     initializeGameState();
-//     gameStateRef.set(gameState);
-//     gameStarted = true; // Set the game as started 
-//     lastTimestamp = performance.now();
-//     animateBall(lastTimestamp);
-
-//     leftPaddleImage.style.display = "block";
-//     rightPaddleImage.style.display = "block";
-//     document.getElementById('sign-out-button').style.display = 'none';
-//     document.getElementById('start-game').style.display = 'none';
-//     document.getElementById('start-game-ai').style.display = 'none';
-//     document.getElementById('online-player-count').style.display = 'none';
-//     document.getElementById('ball').style.display = 'block';
-//     document.getElementById('back-button').style.display = 'none';
-
-//     requestAnimationFrame(animateBall);
-// }
-
-// need to add AI game
-// function startGameAI() {
-
-// }
-
-document.getElementById('start-game').addEventListener('click', async () => {
+async function startGame() {
+    resetGame();
     initializeGameState();
     gameStateRef.set(gameState);
-
-    showConnectingScreen();
+    gameStarted = true;
+    lastTimestamp = performance.now();
     
-    const opponentUid = await findOpponent();
-
-    hideConnectingScreen();
-
-    if (opponentUid) {
-        gameStarted = true; // Set the game as started
-        lastTimestamp = performance.now();
-        animateBall(lastTimestamp);
-
+    // Disable user input during countdown
+    document.removeEventListener('mousemove', handleMouseMove);
+    cancelAnimationFrame(ballAnimationId);
+    
     leftPaddleImage.style.display = "block";
     rightPaddleImage.style.display = "block";
     document.getElementById('sign-out-button').style.display = 'none';
@@ -408,19 +380,73 @@ document.getElementById('start-game').addEventListener('click', async () => {
     document.getElementById('online-player-count').style.display = 'none';
     document.getElementById('ball').style.display = 'block';
     document.getElementById('back-button').style.display = 'none';
-
-    requestAnimationFrame(animateBall);
-    } else {
-        console.log("No opponent found");
-    }
     
-});
+    // Call findOpponent to get the opponent's UID
+    const opponentUid = await findOpponent();
+    
+    if (opponentUid) {
+        // Use opponentUid in moveRightPaddle function
+        moveRightPaddle(opponentUid);
+        
+        // Add a countdown before the game starts
+        let countdownSeconds = 3; // Adjust as needed
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            if (countdownSeconds === 0) {
+                clearInterval(countdownInterval);
+                countdownElement.style.display = 'none';
+                
+                // Enable user input and start the game after the countdown
+                document.addEventListener('mousemove', handleMouseMove);
+                requestAnimationFrame(animateBall);
+            } else {
+                countdownElement.textContent = countdownSeconds;
+                countdownSeconds--;
+            }
+        }, 1000);
+    } else {
+        // No opponent found, handle this case
+        // For example, display a message indicating no opponent is available
+    }
+}
+
+
+
+async function findOpponent() {
+    const onlinePlayersRef = database.ref('onlinePlayers');
+    
+    return new Promise((resolve, reject) => {
+        onlinePlayersRef.once('value', (snapshot) => {
+            const onlinePlayers = snapshot.val();
+    
+            if (!onlinePlayers) {
+                resolve(null);
+                return;
+            }
+    
+            const onlinePlayerUids = Object.keys(onlinePlayers);
+    
+            const opponentUid = onlinePlayerUids.find((uid) => uid !== currentPlayer.uid);
+    
+            resolve(opponentUid || null);
+        });
+    });
+}
+
+
+// need to add AI game
+// function startGameAI() {
+
+// }
 
 function showConnectingScreen() {
     document.getElementById('connecting-screen').style.display = 'block';
 }
 
-
+function hideConnectingScreen() {
+    document.getElementById('connecting-screen').style.display = 'none';
+}
 
 updateBallPosition();
 updateRightPaddlePosition();
