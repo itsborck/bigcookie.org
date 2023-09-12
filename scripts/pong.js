@@ -125,6 +125,15 @@ let rightPaddleX = screenWidth - rightPaddleImage.width;
 let lastTimestamp = 0;
 const frameInterval = 1000 / 144;
 
+let gameState = {
+    ballX: screenWidth / 2 - ballWidth / 2,
+    ballY: screenHeight / 2 - ballHeight / 2,
+    ballVelX: -screenWidth / 480,
+    ballVelY: screenHeight / 270,
+    rightPaddleX: screenWidth - rightPaddleImage.width,
+    rightPaddleY: screenHeight / 2 - rightPaddleImage.height / 2,
+};
+
 const onlinePlayersRef = database.ref('onlinePlayers');
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // Left paddle movement
@@ -164,10 +173,10 @@ function animateRightPaddle() {
         moveRightPaddle(-3.5);
     }
 
-    gameStateRef.update({
-        rightPaddleX: rightPaddleX,
-        rightPaddleY: rightPaddleY,
-    });
+    gameState.rightPaddleX = rightPaddleX;
+    gameState.rightPaddleY = rightPaddleY;
+
+    gameStateRef.update(gameState);
 
     rightPaddleAnimationId = requestAnimationFrame(animateRightPaddle); 
     // cancelAnimationFrame(animationId); //cancel the animation stop the ball
@@ -223,25 +232,18 @@ function animateBall(timestamp) {
         leftPaddleRect = leftPaddleImage.getBoundingClientRect();
         rightPaddleRect = rightPaddleImage.getBoundingClientRect();
 
-        gameStateRef.update({
-            ballX: ballX,
-            ballY: ballY,
-            ballVelX: ballVelX,
-            ballVelY: ballVelY,
-        });
+        gameStateRef.ballX = ballX;
+        gameStateRef.ballY = ballY;
+        gameStateRef.ballVelX = ballVelX;
+        gameStateRef.ballVelY = ballVelY;
+
+        gameStateRef.update(gameState);
 
         playersRef.on('value', function (snapshot) {
             const gameState = snapshot.val();
         
             if (gameState) {
-                ballX = gameState.ballX;
-                ballY = gameState.ballY;
-                ballVelX = gameState.ballVelX;
-                ballVelY = gameState.ballVelY;
-        
-                rightPaddleX = gameState.rightPaddleX;
-                rightPaddleY = gameState.rightPaddleY;
-            }
+
         //collision detection
         if (ballY <= 0 || ballY + ballHeight >= screenHeight) {
             ballVelY *= -1;
@@ -261,7 +263,7 @@ function animateBall(timestamp) {
                 endGame();
             }
         }
-    
+    }
         });
     }
 }
@@ -270,7 +272,9 @@ function endGame() {
     cancelAnimationFrame(ballAnimationId);
     document.getElementById('sign-out-button').style.display = 'block';
     document.getElementById('start-game').style.display = 'block';
-    gameStateRef.remove();
+    document.getElementById('start-game-ai').style.display = 'block';
+    document.getElementById('online-player-count').style.display = 'block';
+    gameStateRef.remove(gameStateRef);
 }
 
 
@@ -311,6 +315,8 @@ function startGame() {
     rightPaddleImage.style.display = "block";
     document.getElementById('sign-out-button').style.display = 'none';
     document.getElementById('start-game').style.display = 'none';
+    document.getElementById('start-game-ai').style.display = 'none';
+    document.getElementById('online-player-count').style.display = 'none';
 
     requestAnimationFrame(animateBall);
 }
