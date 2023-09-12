@@ -75,6 +75,13 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('paddle2').style.display = 'none';
         document.getElementById('ball').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
+
+        playerConnected = true;
+
+        if (playerConnected && opponentConnected) {
+            document.getElementById('start-game').style.display = 'block';
+            startCountdown();
+        }
     } else {
       // User is not signed in
         if (currentPlayer) {
@@ -144,6 +151,9 @@ const frameInterval = 1000 / 144;
 
 let gameStarted = false;
 let gameOver = false;
+
+let playerConnected = false;
+let opponentConnected = false;
 
 let gameState = {
     ballX: screenWidth / 2 - ballWidth / 2,
@@ -389,22 +399,24 @@ async function startGame() {
         moveRightPaddle(opponentUid);
         
         // Add a countdown before the game starts
-        let countdownSeconds = 3; // Adjust as needed
+        let countdown = 3; // Adjust as needed
+        let countdownInterval;
         const countdownElement = document.getElementById('countdown');
         
-        const countdownInterval = setInterval(() => {
-            if (countdownSeconds === 0) {
-                clearInterval(countdownInterval);
-                countdownElement.style.display = 'none';
-                
-                // Enable user input and start the game after the countdown
-                document.addEventListener('mousemove', handleMouseMove);
-                requestAnimationFrame(animateBall);
-            } else {
-                countdownElement.textContent = countdownSeconds;
-                countdownSeconds--;
-            }
-        }, 1000);
+        function startCountdown() {
+            countdownInterval = setInterval(function () {
+                if (countdown > 0) {
+                    // Update the countdown display
+                    document.getElementById('countdown').textContent = countdown;
+                    countdown--;
+                } else {
+                    // Start the game when the countdown reaches 0
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').textContent = '';
+                    startGame();
+                }
+            }, 1000); // Update countdown every 1 second
+        }
     } else {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
