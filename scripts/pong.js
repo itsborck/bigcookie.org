@@ -405,24 +405,27 @@ async function startGame() {
 
         // Wait until both players are connected
         await waitForBothPlayersConnected();
-
+        
         // Add a countdown before the game starts
         let countdown = 3; // Adjust as needed
-        let countdownInterval;
-        const countdownElement = document.getElementById('countdown');
         
         function startCountdown() {
-            countdownInterval = setInterval(function () {
+            const countdownElement = document.getElementById('countdown');
+
+            const countdownInterval = setInterval(function () {
                 if (countdown > 0) {
                     // Update the countdown display
-                    document.getElementById('countdown').textContent = countdown;
+                    countdownElement.textContent = countdown;
                     countdown--;
                 } else {
                     // Start the game when the countdown reaches 0
                     clearInterval(countdownInterval);
-                    document.getElementById('countdown').textContent = '';
+                    countdownElement.textContent = '';
                     hideConnectingScreen(); // Hide the connecting screen
-                    startGame(); // Start the game
+                    initializeGameState(); // Re-initialize game state
+                    gameStateRef.set(gameState); // Update the game state in Firebase
+                    lastTimestamp = performance.now();
+                    animateBall(); // Start the game animation
                 }
             }, 1000); // Update countdown every 1 second
         }
