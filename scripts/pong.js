@@ -360,13 +360,45 @@ function resetGame(){
 }
 
 // Start the game
-function startGame() {
-    resetGame();
+// function startGame() {
+//     resetGame();
+//     initializeGameState();
+//     gameStateRef.set(gameState);
+//     gameStarted = true; // Set the game as started 
+//     lastTimestamp = performance.now();
+//     animateBall(lastTimestamp);
+
+//     leftPaddleImage.style.display = "block";
+//     rightPaddleImage.style.display = "block";
+//     document.getElementById('sign-out-button').style.display = 'none';
+//     document.getElementById('start-game').style.display = 'none';
+//     document.getElementById('start-game-ai').style.display = 'none';
+//     document.getElementById('online-player-count').style.display = 'none';
+//     document.getElementById('ball').style.display = 'block';
+//     document.getElementById('back-button').style.display = 'none';
+
+//     requestAnimationFrame(animateBall);
+// }
+
+// need to add AI game
+// function startGameAI() {
+
+// }
+
+document.getElementById('start-game').addEventListener('click', async () => {
     initializeGameState();
     gameStateRef.set(gameState);
-    gameStarted = true; // Set the game as started 
-    lastTimestamp = performance.now();
-    animateBall(lastTimestamp);
+
+    showConnectingScreen();
+    
+    const opponentUid = await findOpponent();
+
+    hideConnectingScreen();
+
+    if (opponentUid) {
+        gameStarted = true; // Set the game as started
+        lastTimestamp = performance.now();
+        animateBall(lastTimestamp);
 
     leftPaddleImage.style.display = "block";
     rightPaddleImage.style.display = "block";
@@ -378,12 +410,17 @@ function startGame() {
     document.getElementById('back-button').style.display = 'none';
 
     requestAnimationFrame(animateBall);
+    } else {
+        console.log("No opponent found");
+    }
+    
+});
+
+function showConnectingScreen() {
+    document.getElementById('connecting-screen').style.display = 'block';
 }
 
-// need to add AI game
-// function startGameAI() {
 
-// }
 
 updateBallPosition();
 updateRightPaddlePosition();
