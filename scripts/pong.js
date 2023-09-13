@@ -274,53 +274,50 @@ function animateBall(timestamp) {
 
     if (elapsed >= frameInterval) {
         lastTimestamp = timestamp;
-    
-        if (currentPlayer) {
-            moveBall(ballVelX, ballVelY);
-            ballRect = ballImage.getBoundingClientRect();
-            leftPaddleRect = leftPaddleImage.getBoundingClientRect();
-            rightPaddleRect = rightPaddleImage.getBoundingClientRect();
-            if (!gameOver) {
+
+        moveBall(ballVelX, ballVelY);
+        ballRect = ballImage.getBoundingClientRect();
+        leftPaddleRect = leftPaddleImage.getBoundingClientRect();
+        rightPaddleRect = rightPaddleImage.getBoundingClientRect();
+
+        if (!gameOver) {
+            if (currentPlayer) {
+                // If there is a current player, update the ball's position
                 gameState.ballX = ballX;
                 gameState.ballY = ballY;
                 gameState.ballVelX = ballVelX;
                 gameState.ballVelY = ballVelY;
-
                 gameStateRef.update(gameState);
-            }
 
-            playersRef.on('value', function (snapshot) {
-                const gameState = snapshot.val();
-            
-                if (gameState) {
-                    //collision detection
-                    if (ballY <= 0 || ballY + ballHeight >= screenHeight) {
-                        ballVelY *= -1;
-                    }
-                
-                    if (ballX <= 0){
-                        if (ballRect.bottom >= leftPaddleRect.top && ballRect.top <= leftPaddleRect.bottom){
-                            ballVelX *= -1;
-                        } else {
-                            endGame();
-                        }
-                    }
-                    if (ballX + ballWidth >= screenWidth){
-                        if (ballRect.bottom >= rightPaddleRect.top && ballRect.top <= rightPaddleRect.bottom){
-                            ballVelX *= -1;
-                        } else {
-                            endGame();
-                        }
+                // Collision detection for the current player
+                if (ballY <= 0 || ballY + ballHeight >= screenHeight) {
+                    ballVelY *= -1;
+                }
+
+                if (ballX <= 0) {
+                    if (ballRect.bottom >= leftPaddleRect.top && ballRect.top <= leftPaddleRect.bottom) {
+                        ballVelX *= -1;
+                    } else {
+                        endGame();
                     }
                 }
-            });
-        } else {
-            // If there's no current player, just update the ball's position
-            moveBall(ballVelX, ballVelY);
-            ballRect = ballImage.getBoundingClientRect();
+
+                if (ballX + ballWidth >= screenWidth) {
+                    if (ballRect.bottom >= rightPaddleRect.top && ballRect.top <= rightPaddleRect.bottom) {
+                        ballVelX *= -1;
+                    } else {
+                        endGame();
+                    }
+                }
+            } else {
+                // If there is no current player, reverse the ball's direction for the opponent
+                moveBall(-ballVelX, ballVelY);
+                ballRect = ballImage.getBoundingClientRect();
+            }
         }
     }
 }
+
 
 function endGame() {
     cancelAnimationFrame(ballAnimationId);
@@ -421,6 +418,8 @@ async function startGame() {
     } else {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
+        window.alert("No Other Players Online");
+        window.location.reload();
     }
 }
 
