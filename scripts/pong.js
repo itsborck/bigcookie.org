@@ -401,6 +401,7 @@ async function startGame() {
         // Check if both players are ready
         const readyRef = database.ref('players').child(currentPlayer.uid).child('ready');
         readyRef.set(true); // Mark the current player as ready
+        gameReady = true;
 
         // Listen for the opponent's readiness
         const opponentReadyRef = database.ref('players').child(opponentUid).child('ready');
