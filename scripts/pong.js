@@ -64,6 +64,7 @@ firebase.auth().onAuthStateChanged((user) => {
             uid: user.uid,
             displayName: user.displayName,
             leftPaddleY: screenHeight / 2 - leftPaddleImage.height / 2,
+            ready: false,
         };
         playersRef.child(user.uid).set(currentPlayer);
         onlinePlayersRef.child(user.uid).set(true);
@@ -75,13 +76,6 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('paddle2').style.display = 'none';
         document.getElementById('ball').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
-
-        playerConnected = true;
-
-        if (playerConnected && opponentConnected) {
-            document.getElementById('start-game').style.display = 'block';
-            startCountdown();
-        }
     } else {
       // User is not signed in
         if (currentPlayer) {
@@ -152,9 +146,6 @@ const frameInterval = 1000 / 144;
 let gameStarted = false;
 let gameOver = false;
 
-let playerConnected = false;
-let opponentConnected = false;
-
 let gameState = {
     ballX: screenWidth / 2 - ballWidth / 2,
     ballY: screenHeight / 2 - ballHeight / 2,
@@ -163,6 +154,8 @@ let gameState = {
     rightPaddleX: screenWidth - rightPaddleImage.width,
     rightPaddleY: screenHeight / 2 - rightPaddleImage.height / 2,
 };
+
+let gameReady = false;
 
 const onlinePlayersRef = database.ref('onlinePlayers');
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -337,6 +330,10 @@ function endGame() {
     gameStateRef.remove();
     gameStarted = false;
     gameOver = true;
+
+    // Reset the readiness status
+    const readyRef = database.ref('players').child(currentPlayer.uid).child('ready');
+    readyRef.set(false);
 }
 
 function backButton() {
@@ -371,19 +368,17 @@ function resetGame(){
 }
 
 // Start the game
-// ...
-
 async function startGame() {
     resetGame();
     initializeGameState();
     gameStateRef.set(gameState);
     gameStarted = true;
     lastTimestamp = performance.now();
-    
+
     // Disable user input during countdown
     document.removeEventListener('mousemove', handleMouseMove);
     cancelAnimationFrame(ballAnimationId);
-    
+
     leftPaddleImage.style.display = "block";
     rightPaddleImage.style.display = "block";
     document.getElementById('sign-out-button').style.display = 'none';
@@ -391,68 +386,57 @@ async function startGame() {
     document.getElementById('start-game-ai').style.display = 'none';
     document.getElementById('online-player-count').style.display = 'none';
     document.getElementById('ball').style.display = 'block';
-    document.getElementById('back-button').style.display = 'none';
-    
+    document.getElementById('back-button').style.display = 'block';
+
     // Call findOpponent to get the opponent's UID
     const opponentUid = await findOpponent();
-    
+
     if (opponentUid) {
         // Use opponentUid in moveRightPaddle function
         moveRightPaddle(opponentUid);
-        
-        // Show the connecting screen
+
+        // Show a connecting screen while waiting for the opponent
         showConnectingScreen();
 
-        // Wait until both players are connected
-        await waitForBothPlayersConnected();
-        
-        // Add a countdown before the game starts
-        let countdown = 3; // Adjust as needed
-        
-        function startCountdown() {
-            const countdownElement = document.getElementById('countdown');
+        // Check if both players are ready
+        const readyRef = database.ref('players').child(currentPlayer.uid).child('ready');
+        readyRef.set(true); // Mark the current player as ready
 
-            const countdownInterval = setInterval(function () {
-                if (countdown > 0) {
-                    // Update the countdown display
-                    countdownElement.textContent = countdown;
-                    countdown--;
-                } else {
-                    // Start the game when the countdown reaches 0
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = '';
-                    hideConnectingScreen(); // Hide the connecting screen
-                    initializeGameState(); // Re-initialize game state
-                    gameStateRef.set(gameState); // Update the game state in Firebase
-                    lastTimestamp = performance.now();
-                    animateBall(); // Start the game animation
-                }
-            }, 1000); // Update countdown every 1 second
-        }
-
-        // Start the countdown
-        startCountdown();
+        // Listen for the opponent's readiness
+        const opponentReadyRef = database.ref('players').child(opponentUid).child('ready');
+        opponentReadyRef.on('value', (snapshot) => {
+            const opponentReady = snapshot.val();
+            if (opponentReady && gameReady) {
+                // Both players are ready, start the countdown
+                hideConnectingScreen();
+                startCountdown();
+            }
+        });
     } else {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
     }
 }
 
-async function waitForBothPlayersConnected() {
-    return new Promise((resolve) => {
-        const playersConnectedRef = database.ref('playersConnected');
+function startCountdown() {
+    // Add your countdown logic here
+    let countdownSeconds = 3; // Adjust as needed
+    const countdownElement = document.getElementById('countdown');
 
-        // Listen for changes in playersConnected
-        playersConnectedRef.on('value', (snapshot) => {
-            const playersConnected = snapshot.val();
-            if (playersConnected && Object.keys(playersConnected).length === 2) {
-                // Both players are connected, resolve the promise
-                resolve();
-            }
-        });
-    });
+    const countdownInterval = setInterval(() => {
+        if (countdownSeconds === 0) {
+            clearInterval(countdownInterval);
+            countdownElement.style.display = 'none';
+
+            // Enable user input and start the game after the countdown
+            document.addEventListener('mousemove', handleMouseMove);
+            requestAnimationFrame(animateBall);
+        } else {
+            countdownElement.textContent = countdownSeconds;
+            countdownSeconds--;
+        }
+    }, 1000);
 }
-
 
 async function findOpponent() {
     const onlinePlayersRef = database.ref('onlinePlayers');
