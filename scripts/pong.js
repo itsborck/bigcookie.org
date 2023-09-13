@@ -383,6 +383,7 @@ async function startGame() {
 
     leftPaddleImage.style.display = "block";
     rightPaddleImage.style.display = "block";
+    document.getElementById("user-name").textContent = currentPlayer.displayName;
     document.getElementById('sign-out-button').style.display = 'none';
     document.getElementById('start-game').style.display = 'none';
     document.getElementById('start-game-ai').style.display = 'none';
@@ -415,6 +416,15 @@ async function startGame() {
                 startCountdown();
             }
         });
+
+        // Retrieve and display the opponent's name
+        const opponentNameRef = database.ref('players').child(opponentUid).child('displayName');
+        opponentNameRef.once('value', (snapshot) => {
+            const opponentName = snapshot.val();
+            if (opponentName) {
+                document.getElementById('opponent-name').textContent = `${opponentName}`;
+            }
+        });
     } else {
         // No opponent found, handle this case
         // For example, display a message indicating no opponent is available
@@ -422,6 +432,7 @@ async function startGame() {
         window.location.reload();
     }
 }
+
 
 function startCountdown() {
     // Add your countdown logic here
