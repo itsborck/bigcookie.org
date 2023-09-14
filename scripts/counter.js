@@ -36,12 +36,16 @@ firebase.auth().onAuthStateChanged((user) => {
         saveUidToFirestore(user.uid);
         document.getElementById('google-signin').style.display = 'none';
         document.getElementById('sign-out-button').style.display = 'block';
+        document.getElementById('incrementBtn').style.display = 'block';
+        document.getElementById('decrementBtn').style.display = 'block';
     } else {
         // User is signed out, disable buttons
         incrementBtn.disabled = true;
         decrementBtn.disabled = true;
         document.getElementById('google-signin').style.display = 'block';
         document.getElementById('sign-out-button').style.display = 'none';
+        document.getElementById('incrementBtn').style.display = 'none';
+        document.getElementById('decrementBtn').style.display = 'none';
     }
 });
 
