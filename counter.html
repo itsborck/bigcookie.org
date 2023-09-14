@@ -6,23 +6,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <title>Games - Big Cookie</title>
-  <meta content="Big Cookie Games" property="og:title" />
+  <title>Home - Big Cookie</title>
+  <meta content="Big Cookie" property="og:title" />
   <meta content="big cookie" property="og:description" />
-  <meta content="https://bigcookie.org/games" property="og:url" />
+  <meta content="https://bigcookie.org" property="og:url" />
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
   <meta content="website" property="og:type" />
   <meta content="#43B581" data-react-helmet="true" name="theme-color" />
-  <meta content="Big Cookie Games" name="twitter:title">
+  <meta content="Big Cookie" name="twitter:title">
   <meta content="big cookie" name="twitter:description">
-  <meta content="https://bigcookie.org/games" name="twitter:url">
+  <meta content="https://bigcookie.org" name="twitter:url">
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
   <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/counter.css" rel="stylesheet" type="text/css"/>
   <link href="favicon.png" rel="icon"/>
 </head>
 
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
   <div class="preloader">
     <div class="loader">
       <img src="favicon.png">
@@ -50,24 +54,13 @@
     </nav>
   </header>
 
-  <div class="hero-image">
-    <div class="hero-text">
-      <div class="slide-down">
-        <div>Big Cookie Games</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="line"></div>
-
-  <div class="column">
-    <p><a href="https://bigcookie.org/games/cattennis"><img src="images/cattennis/cattennislogo.png" style="width:10%"></a></p>
-  </div>
-
-  <div class="cattenniscolumn">
-    <a href="https://bigcookie.org/games/cattennis"><i class="fa-solid fa-gamepad fa-xs"></i> Play Cat Tennis</a>
-  </div>
+  <div class="counter">
+    <p><span id="count">0</span></p>
+    <button id="incrementBtn">Increment</button>
+    <button id="decrementBtn">Decrement</button>
+</div>
   
+  <script src="scripts/counter.js"></script>
   <script src="scripts/script.js"></script>
 </body>
 </html>
