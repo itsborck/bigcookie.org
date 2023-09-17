@@ -46,6 +46,7 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('sign-out-button').style.display = 'none';
         document.getElementById('incrementBtn').style.display = 'none';
         document.getElementById('decrementBtn').style.display = 'none';
+        window.alert("Unauthorized User!");
     }
 });
 

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <title>Big Cookie Wordle</title>
+  <meta content="Big Cookie Wordle" property="og:title" />
+  <meta content="big cookie" property="og:description" />
+  <meta content="https://bigcookie.org/games/wordle" property="og:url" />
+  <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
+  <meta content="website" property="og:type" />
+  <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+  <meta content="Big Cookie Wordle" name="twitter:title">
+  <meta content="big cookie" name="twitter:description">
+  <meta content="https://bigcookie.org/games/wordle" name="twitter:url">
+  <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
+  <meta content="summary_large_image" name="twitter:card">
+  <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/css/wordle.css" rel="stylesheet" type="text/css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="/favicon.png" rel="icon"/>
+</head>
+
+<body>
+  <div class="preloader">
+    <div class="loader">
+      <img src="/favicon.png">
+    </div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+        <a href="/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+        <a href="/esports"><i class="fa-solid fa-trophy fa-xs"></i> eSports</a>
+        <a href="/photos"><i class="fa-solid fa-image fa-xs"></i> Photos</a>
+        <a href="/counter"><i class="fa-solid fa-arrow-up-1-9"></i> Counter</a>
+        <div class="social-icons">
+          <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube fa-s"></i></a>
+          <a href="https://kick.com/realbigcookie" target="_blank"><i class="fa-brands fa-kickstarter-k fa-s"></i></a>
+          <a href="https://discord.gg/zuecYtwdgq" target="_blank"><i class="fa-brands fa-discord fa-s"></i></a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <h1>Big Cookie Wordle</h1>
+
+  <div id="game-board"></div>
+
+  <div id="keyboard-cont">
+    <div class="first-row">
+        <button class="keyboard-button">q</button>
+        <button class="keyboard-button">w</button>
+        <button class="keyboard-button">e</button>
+        <button class="keyboard-button">r</button>
+        <button class="keyboard-button">t</button>
+        <button class="keyboard-button">y</button>
+        <button class="keyboard-button">u</button>
+        <button class="keyboard-button">i</button>
+        <button class="keyboard-button">o</button>
+        <button class="keyboard-button">p</button>
+    </div>
+    <div class="second-row">
+        <button class="keyboard-button">a</button>
+        <button class="keyboard-button">s</button>
+        <button class="keyboard-button">d</button>
+        <button class="keyboard-button">f</button>
+        <button class="keyboard-button">g</button>
+        <button class="keyboard-button">h</button>
+        <button class="keyboard-button">j</button>
+        <button class="keyboard-button">k</button>
+        <button class="keyboard-button">l</button>
+    </div>
+    <div class="third-row">
+        <button class="keyboard-button">Del</button>
+        <button class="keyboard-button">z</button>
+        <button class="keyboard-button">x</button>
+        <button class="keyboard-button">c</button>
+        <button class="keyboard-button">v</button>
+        <button class="keyboard-button">b</button>
+        <button class="keyboard-button">n</button>
+        <button class="keyboard-button">m</button>
+        <button class="keyboard-button">Enter</button>
+    </div>
+</div>
+
+  <script src="/scripts/wordle.js" type="module"></script>
+  <script src="/scripts/script.js"></script>
+
+  <script
+src="https://code.jquery.com/jquery-3.6.0.min.js"
+integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</body>
+</html>
