@@ -52,11 +52,12 @@ h1 {
 .keyboard-button {
   font-size: 1rem;
   font-weight: 700;
-  padding: 0.5rem;
+  padding: 15px;
   margin: 0 2px;
   cursor: pointer;
   text-transform: uppercase;
   border-radius: 5px;
+  border: none;
   background-color: #818384;
   color: white;
 }
