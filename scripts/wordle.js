@@ -27,8 +27,10 @@ initBoard()
 
 document.addEventListener("keyup", (e) => {
 
-  if (e.key.startsWith("F") || e.key.startsWith("f")) {
-    e.preventDefault();
+  if (e.key.startsWith("F")) {
+    if (e.key !== "f" && e.key !== "F") {
+        e.preventDefault();
+    }
   } else {
     
     if (guessesRemaining === 0) {
