@@ -6,23 +6,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <title>Games - Big Cookie</title>
-  <meta content="Big Cookie Games" property="og:title" />
+  <title>Counter - Big Cookie</title>
+  <meta content="Big Cookie" property="og:title" />
   <meta content="big cookie" property="og:description" />
-  <meta content="https://bigcookie.org/games" property="og:url" />
+  <meta content="https://bigcookie.org/counter" property="og:url" />
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" property="og:image" />
   <meta content="website" property="og:type" />
   <meta content="#43B581" data-react-helmet="true" name="theme-color" />
-  <meta content="Big Cookie Games" name="twitter:title">
+  <meta content="Big Cookie" name="twitter:title">
   <meta content="big cookie" name="twitter:description">
-  <meta content="https://bigcookie.org/games" name="twitter:url">
+  <meta content="https://bigcookie.org/counter" name="twitter:url">
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
   <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/counter.css" rel="stylesheet" type="text/css"/>
   <link href="favicon.png" rel="icon"/>
 </head>
 
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
   <div class="preloader">
     <div class="loader">
       <img src="favicon.png">
@@ -50,27 +55,18 @@
     </nav>
   </header>
 
-  <div class="hero-image">
-    <div class="hero-text">
-      <div class="slide-down">
-        <div>Big Cookie Games</div>
-      </div>
-    </div>
+  <div id="auth-buttons">
+    <button id="sign-out-button">Sign Out</button>
+    <button class="google-signin" id="google-signin">Sign in</button>
   </div>
 
-  <div class="line"></div>
-
-  <div class="row">
-    <div class="column">
-      <a href="/games/cattennis"><img src="images/cattennis/cattennislogo.png" alt="Play Cat Tennis"></a>
-      <a href="/games/cattennis"><i class="fa-solid fa-gamepad"></i> Play Cat Tennis</a>
-    </div>
-    <div class="column">
-      <a href="/games/wordle"><img src="images/wordle/wordle logo.png" alt="Play Big Cookie Wordle"></a>
-      <a href="/games/wordle"><i class="fa-solid fa-gamepad"></i> Play Big Cookie Wordle</a>
-    </div>
-  </div>
+  <div class="counter">
+    <button id="incrementBtn"><i class="fa-solid fa-chevron-up"></i></button>
+    <span id="count">0</span>
+    <button id="decrementBtn"><i class="fa-solid fa-chevron-down"></i></button>
+</div>
   
+  <script src="scripts/counter.js"></script>
   <script src="scripts/script.js"></script>
 </body>
 </html>

@@ -123,8 +123,8 @@ const screenHeight = window.innerHeight;
 
 let ballwidth = 75;
 let ballheight = 75;
-ballImage.width = ballwidth;
-ballImage.height = ballheight;
+ballImage.width = ballWidth;
+ballImage.height = ballHeight;
 let ballX = (screenWidth - ballImage.width) / 2;
 let ballY = 20;
 
@@ -251,15 +251,15 @@ function animateBall(timestamp) {
   }
 
   if (ballVelY < 0){
-    ballwidth += .35;
-    ballheight += .35;
-    ballImage.width = ballwidth;
-    ballImage.height = ballheight;
+    ballWidth += .35;
+    ballHeight += .35;
+    ballImage.width = ballWidth;
+    ballImage.height = ballHeight;
   } else if (ballVelY > 0){
-    ballwidth -= .35;
-    ballheight -= .35;
-    ballImage.width = ballwidth;
-    ballImage.height = ballheight;
+    ballWidth -= .35;
+    ballHeight -= .35;
+    ballImage.width = ballWidth;
+    ballImage.height = ballHeight;
   }
 
     checkBallInteraction();
@@ -278,10 +278,10 @@ let isGameOver = false;
 function startGame() {
   score = 0;
   scoreText.innerHTML = score;
-  ballwidth = 75;
-  ballheight = 75;
-  ballImage.width = ballwidth;
-  ballImage.height = ballheight;
+  ballWidth = 75;
+  ballHeight = 75;
+  ballImage.width = ballWidth;
+  ballImage.height = ballHeight;
   ballX = (screenWidth - ballImage.width) / 2;
   ballY = 20;
   ballVelX = 0;

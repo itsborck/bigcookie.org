@@ -18,9 +18,9 @@
   <meta content="https://bigcookie.org/games" name="twitter:url">
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
-  <link href="css/style.css" rel="stylesheet" type="text/css"/>
-  <link href="css/cattennis.css" rel="stylesheet" type="text/css">
-  <link href="favicon.png" rel="icon"/>
+  <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/css/cattennis.css" rel="stylesheet" type="text/css">
+  <link href="/favicon.png" rel="icon"/>
 </head>
 
 <body id="body">
@@ -31,7 +31,7 @@
 
   <div class="preloader">
     <div class="loader">
-      <img src="favicon.png">
+      <img src="/favicon.png">
     </div>
   </div>
 
@@ -39,11 +39,11 @@
     <nav>
       <div class="navbar" id="myNavbar">
         <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
-        <a href="https://bigcookie.org/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
-        <a href="https://bigcookie.org/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
-        <a href="https://bigcookie.org/esports"><i class="fa-solid fa-trophy fa-xs"></i> eSports</a>
-        <a href="https://bigcookie.org/photos"><i class="fa-solid fa-image fa-xs"></i> Photos</a>
-        <a href="https://shop.bigcookie.org" target="_blank"><i class="fa-solid fa-shirt fa-xs"></i> Merch</a>
+        <a href="/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+        <a href="/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+        <a href="/esports"><i class="fa-solid fa-trophy fa-xs"></i> eSports</a>
+        <a href="/photos"><i class="fa-solid fa-image fa-xs"></i> Photos</a>
+        <a href="/counter"><i class="fa-solid fa-arrow-up-1-9"></i> Counter</a>
         <div class="social-icons">
           <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube fa-s"></i></a>
           <a href="https://kick.com/realbigcookie" target="_blank"><i class="fa-brands fa-kickstarter-k fa-s"></i></a>
@@ -77,17 +77,17 @@
     <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.4" onchange="adjustVolume()">
   </div>
 
-  <img src="images/cattennis/cookieball.png" alt="Ball" class="ball" id="ball">
-  <img src="images/cattennis/cattennisopponent.png" alt="Opponent" class="opponent" id="opponent">
-  <img src="images/cattennis/cookiepan.png" alt="Racket" class="racket" id="racket">
+  <img src="/images/cattennis/cookieball.png" alt="Ball" class="ball" id="ball">
+  <img src="/images/cattennis/cattennisopponent.png" alt="Opponent" class="opponent" id="opponent">
+  <img src="/images/cattennis/cookiepan.png" alt="Racket" class="racket" id="racket">
   
   <div class="score" id="score">0</div>
 
-  <audio id="playerHitSound" src="images/cattennis/audio/playerhitsound.mp3"></audio>
-  <audio id="opponentHitSound" src="images/cattennis/audio/opponenthitsound.mp3"></audio>
-  <audio id="tennisTheme" src="images/cattennis/audio/tennistheme.mp3"></audio>
+  <audio id="playerHitSound" src="/images/cattennis/audio/playerhitsound.mp3"></audio>
+  <audio id="opponentHitSound" src="/images/cattennis/audio/opponenthitsound.mp3"></audio>
+  <audio id="tennisTheme" src="/images/cattennis/audio/tennistheme.mp3"></audio>
   
-  <script src="scripts/cattennis.js"></script>
+  <script src="/scripts/cattennis.js"></script>
 
   <button class="start-button" id="start-game" onclick="startGame()">Start Game</button>
 </body>
