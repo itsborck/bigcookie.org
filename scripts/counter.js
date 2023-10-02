@@ -20,12 +20,14 @@ const decrementBtn = document.getElementById('decrementBtn');
 
 function checkUserPermission() {
     const user = firebase.auth().currentUser;
-    if (user && user.uid === 'kj8RsHRLYNUWXC3ZACfBSLgbv2G3') {
+    if (user && user.uid === 'kj8RsHRLYNUWXC3ZACfBSLgbv2G3', 'JO2J5OF2byZpInjiyu8Y5W3X39C3') {
         incrementBtn.disabled = false;
         decrementBtn.disabled = false;
     } else {
         incrementBtn.disabled = true;
         decrementBtn.disabled = true;
+        document.getElementById('incrementBtn').style.display = 'none';
+        document.getElementById('decrementBtn').style.display = 'none';
     }
 }
 
