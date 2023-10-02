@@ -67,6 +67,14 @@ body {
     text-align: center;
 }
 
+#opponent-name {
+    position: fixed;
+    bottom: 75px;
+    right: 10px;
+    color: white;
+    text-align: center;
+}
+
 #online-player-count {
     text-align: center;
 }
