@@ -26,34 +26,66 @@
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
-  <div class="calendar">
-    <div class="calendar-header">
-        <button id="prev-month">Previous</button>
-        <h1 id="calendar-month-year">October 2023</h1>
-        <button id="next-month">Next</button>
-        <!-- <button id="add-event-button">Add Event</button> -->
+  <div class="preloader">
+    <div class="loader">
+      <img src="images/favicon.png">
     </div>
-    <div class="calendar-grid" id="calendar-grid">
-      <div class="day-header">Sun</div>
-      <div class="day-header">Mon</div>
-      <div class="day-header">Tue</div>
-      <div class="day-header">Wed</div>
-      <div class="day-header">Thu</div>
-      <div class="day-header">Fri</div>
-      <div class="day-header">Sat</div>
   </div>
+
+  <header>
+    <nav>
+      <div class="navbar" id="myNavbar">
+        <a href="/"><i class="fa-solid fa-house fa-xs"></i> Home</a>
+        <a href="/about"><i class="fa-solid fa-info-circle fa-xs"></i> About</a>
+        <a href="/games"><i class="fa-solid fa-gamepad fa-xs"></i> Games</a>
+        <a href="/esports"><i class="fa-solid fa-trophy fa-xs"></i> eSports</a>
+        <a href="/photos"><i class="fa-solid fa-image fa-xs"></i> Photos</a>
+        <a href="/counter"><i class="fa-solid fa-arrow-up-1-9"></i> Counter</a>
+        <div class="social-icons">
+          <a href="https://www.youtube.com/@BigCookieChronicles" target="_blank"><i class="fa-brands fa-youtube fa-s"></i></a>
+          <a href="https://kick.com/realbigcookie" target="_blank"><i class="fa-brands fa-kickstarter-k fa-s"></i></a>
+          <a href="https://discord.gg/zuecYtwdgq" target="_blank"><i class="fa-brands fa-discord fa-s"></i></a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="calendar-grid" id="calendar-grid">
+    <div class="calendar-header">
+        <button id="prev-month"><i class="fa-solid fa-chevron-left fa-xl"></i></button>
+        <h1 id="calendar-month-year"></h1>
+        <button id="next-month"><i class="fa-solid fa-chevron-right fa-xl"></i></button>
+        <button id="add-event-button"><i class="fa-solid fa-plus fa-xl"></i></button>
+    </div>
+    <div class="calendar-days">
+    </div>
+    <div class="calendar-cells" id="calendar-cells">
+        <!-- Day cells will be added here dynamically -->
+    </div>
 </div>
+
 <div id="event-modal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close-modal" id="close-modal">&times;</span>
         <h2>Add Event</h2>
         <form id="event-form">
-            <input type="text" id="event-title" placeholder="Event Title" required>
-            <input type="date" id="event-date" required>
-            <button type="submit">Save Event</button>
+            <label for="event-title">Title:</label>
+            <input type="text" id="event-title" name="event-title" required>
+            <label for="event-date">Date:</label>
+            <input type="date" id="event-date" name="event-date" required>
+            <button type="submit">Save</button>
         </form>
     </div>
 </div>
-    <script src="scripts/calendar.js" type="module"></script>
+
+<div id="event-container" class="event-container">
+    <h2 id="selected-day"></h2>
+    <ul id="event-list"></ul>
+</div>
+    <script src="scripts/calendar.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
