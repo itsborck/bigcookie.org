@@ -15,8 +15,10 @@ const db = firebase.firestore();
 document.addEventListener('DOMContentLoaded', function () {
     // Get references to DOM elements
     const calendarGrid = document.getElementById('calendar-grid');
-    const eventModal = document.getElementById('event-modal');
-    const closeModalButton = document.getElementById('close-modal');
+    const eventModal = document.getElementById('add-event-modal');
+    const displayEventModal = document.getElementById('display-event-modal');
+    const closeModalButton = document.getElementById('close-event-modal');
+    const closeDisplayModalButton = document.getElementById('close-display-modal');
     const addEventButton = document.getElementById('add-event-button');
     const eventForm = document.getElementById('event-form');
     const eventTitleInput = document.getElementById('event-title');
@@ -25,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventList = document.getElementById('event-list');
     const prevMonthButton = document.getElementById('prev-month');
     const nextMonthButton = document.getElementById('next-month');
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            
+        }
+    });
 
     // Store the current year and month
     let currentYear = new Date().getFullYear();
@@ -39,8 +47,32 @@ document.addEventListener('DOMContentLoaded', function () {
         eventModal.style.display = 'none';
     });
 
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' || event.key ==='Esc') {
+            eventModal.style.display = 'none';
+            displayEventModal.style.display = 'none';
+        }
+    })
+
+    closeDisplayModalButton.addEventListener('click', () => {
+        displayEventModal.style.display = 'none';
+    });
+
     eventForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        const user = firebase.auth().currentUser;
+        if (!user) {
+            alert('You must be logged in to add an event.');
+            return;
+        }
+
+        const userEmail = user.email;
+        const allowedEmail = 'bpavelko624@gmail.com';
+        if (userEmail !== allowedEmail) {
+            alert('You are not authorized to add events to the calendar.');
+            return;
+        }
 
         // Get form values
         const title = eventTitleInput.value.trim();
@@ -65,7 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
             eventTitleInput.value = '';
             eventDateInput.value = '';
             // Update the displayed events
-            displayEventsForSelectedDay(selectedDay);
+            displayEventsForSelectedDay(selectedDay.textContent);
+            window.location.reload();
         })
         .catch((error) => {
             console.error('Error adding event: ', error);
@@ -90,30 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
         displayEventsOnCalendar(currentYear, currentMonth);
     });
 
-    // Event listener to handle day selection
-    function selectDay(selectedDay) {
-        // Ensure that selectedDay is a valid number
-        if (isNaN(selectedDay)) {
-            console.error('Invalid day provided: ', selectedDay);
-            return;
-        }
-    
-        // Create the selectedDate object
-        const selectedDate = new Date(currentYear, currentMonth, selectedDay);
-    
-        // Validate the date object
-        if (isNaN(selectedDate.getTime())) {
-            console.error('Invalid date object created.');
-            return;
-        }
-    
-        // Proceed with displaying events
-        displayEventsForSelectedDay(selectedDate);
-    }
-
     // Display events on the calendar for the selected day
-    function displayEventsForSelectedDay(selectedDay) {
-        const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+    function displayEventsForSelectedDay(selectedDate) {
         const formattedDate = selectedDate.toISOString().split('T')[0];
     
         db.collection('events')
@@ -125,11 +136,64 @@ document.addEventListener('DOMContentLoaded', function () {
                     const eventData = doc.data();
                     events.push(eventData.title);
                 });
-                displayEvents(selectedDate, events);
+
+                updateCalendarEvents(events);
+                // Display events in the modal
+                const modalContent = document.getElementById('display-event-modal-content');
+                modalContent.innerHTML = '';
+                const modalTitle = document.createElement('h2');
+                modalTitle.textContent = selectedDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                modalContent.appendChild(modalTitle);
+    
+                if (events.length === 0) {
+                    const noEventsMessage = document.createElement('p');
+                    noEventsMessage.textContent = 'No events for this day.';
+                    modalContent.appendChild(noEventsMessage);
+                } else {
+                    const eventList = document.createElement('ul');
+                    events.forEach((event) => {
+                        const eventItem = document.createElement('li');
+                        eventItem.textContent = event;
+                        eventList.appendChild(eventItem);
+                    });
+                    modalContent.appendChild(eventList);
+                }
             })
             .catch((error) => {
                 console.error('Error getting events: ', error);
             });
+    }
+
+    function updateCalendarEvents(events) {
+        // Clear previous event indicators and titles
+        const dayCells = document.querySelectorAll('.day');
+        dayCells.forEach((dayCell) => {
+            dayCell.classList.remove('day-with-events');
+            const eventIndicator = dayCell.querySelector('.event-count');
+            if (eventIndicator) {
+                eventIndicator.textContent = '';
+            }
+        });
+
+        events.forEach((eventData) => {
+            const eventDate = new Date(eventData.date);
+            const dayNumber = eventDate.getDate();
+            const dayCell = document.querySelector(`.day[data-day="${dayNumber}"]`);
+
+            if (dayCell) {
+                const eventIndicator = document.createElement('span');
+                eventIndicator.classList.add('event-count');
+                eventIndicator.textContent = eventData.title;
+
+                dayCell.classList.add('day-with-events');
+
+                dayCell.appendChild(eventIndicator);
+            }
+        });
     }
 
     // Display events on the calendar
@@ -140,16 +204,16 @@ document.addEventListener('DOMContentLoaded', function () {
             year: 'numeric',
             month: 'long',
         });
-    
+
         // Clear existing day cells
         calendarGrid.innerHTML = '';
-    
+
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDayOfMonth = new Date(year, month, 1).getDay();
-    
+
         // Create an array to store day names (Sun, Mon, Tue, etc.)
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    
+
         // Create day name cells (Sun, Mon, Tue, etc.)
         for (const dayName of dayNames) {
             const dayNameCell = document.createElement('div');
@@ -157,63 +221,99 @@ document.addEventListener('DOMContentLoaded', function () {
             dayNameCell.textContent = dayName;
             calendarGrid.appendChild(dayNameCell);
         }
-    
-        // Fill in the day cells with correct day numbers
-        let dayCounter = 1;
-        for (let row = 0; row < 6; row++) {
-            for (let col = 0; col < 7; col++) {
-                const dayCell = document.createElement('div');
-                dayCell.classList.add('day');
-                if (row === 0 && col < firstDayOfMonth) {
-                    // Empty cells before the first day of the month
-                    dayCell.textContent = '';
-                } else if (dayCounter <= daysInMonth) {
-                    // Fill in day numbers up to the number of days in the month
-                    dayCell.textContent = dayCounter;
-                    dayCounter++;
-                } else {
-                    // Empty cells after the last day of the month
-                    dayCell.textContent = '';
-                }
-    
-                // Attach click event listener to each day cell
-                dayCell.addEventListener('click', () => {
-                    const selectedDayElement = document.getElementById('selected-day');
-                    const selectedDay = parseInt(selectedDayElement.textContent);
-                    if (!isNaN(selectedDay)) {
-                        displayEventsForSelectedDay(selectedDay);
-                    }
-                });
-    
-                calendarGrid.appendChild(dayCell);
-            }
-        }
-    
-        // Fetch and display events for the initial selected day
-        const selectedDayElement = document.getElementById('selected-day');
-        const initialSelectedDay = parseInt(selectedDayElement.textContent);
-        if (!isNaN(initialSelectedDay)) {
-            displayEventsForSelectedDay(initialSelectedDay);
-        }
-    }    
 
-    // Helper function to display events for the selected day
-    function displayEvents(selectedDate, events) {
-        selectedDay.textContent = selectedDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
+        // Add empty cells before the first day of the month
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.classList.add('day');
+            emptyCell.textContent = '';
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        // Fill in the day cells with correct day numbers and indicators
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement('div');
+            dayCell.classList.add('day');
+
+        // Check if there are events for this date and add an indicator class
+        const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const events = getEventsForDate(formattedDate);
+
+        // Create the day number text element
+        const dayTextSpan = document.createElement('span');
+        dayTextSpan.textContent = day;
+
+        // Append both spans to the dayCell
+        dayCell.appendChild(dayTextSpan);
+
+        if (events.length > 0) {
+            dayCell.classList.add('day-with-events');
+        }
+
+        // Fetch events for this date and add them to the day cell
+        if (Array.isArray(events)) {
+            events.forEach((eventData) => {
+                console.log(eventData);
+                const eventTitle = eventData.title;
+                const eventIndicator = document.createElement('span');
+                eventIndicator.classList.add('event-title');
+                eventIndicator.textContent = eventTitle;
+
+                dayCell.appendChild(eventIndicator);
+            });
+        }
+        
+
+        // Attach click event listener to each day cell
+        dayCell.addEventListener('click', () => {
+            const selectedDateElement = document.getElementById('selected-day');
+            const selectedDay = parseInt(dayCell.textContent);
+            if (!isNaN(selectedDay)) {
+                selectedDateElement.textContent = selectedDay;
+                displayEventsForSelectedDay(new Date(year, month, selectedDay));
+                const displayEventModal = document.getElementById('display-event-modal');
+                displayEventModal.style.display = 'block'; // Show the display event modal
+            }
         });
 
-        eventList.innerHTML = '';
-        if (events.length === 0) {
-            eventList.innerHTML = '<li>No events for this day.</li>';
-        } else {
-            events.forEach((event) => {
-                const eventItem = document.createElement('li');
-                eventItem.textContent = event;
-                eventList.appendChild(eventItem);
+        calendarGrid.appendChild(dayCell);
+    }
+
+        // Add empty cells after the last day of the month
+        const lastDayOfMonth = new Date(year, month, daysInMonth).getDay();
+        for (let i = lastDayOfMonth + 1; i < 7; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.classList.add('day');
+            emptyCell.textContent = '';
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        // Fetch and display events for the initial selected day
+        const selectedDay = parseInt(document.getElementById('selected-day').textContent);
+        if (!isNaN(selectedDay)) {
+            displayEventsForSelectedDay(new Date(year, month, selectedDay));
+        }
+    }
+
+    // Function to get the event count for a given date
+    async function getEventsForDate(date) {
+        try {
+            const snapshot = await db.collection('events')
+                .where('date', '==', date)
+                .get();
+
+            const events = [];
+            snapshot.forEach((doc) => {
+                const eventData = doc.data();
+                events.push(eventData);
             });
+
+            console.log(`Event count for ${date}:`, events); // Log event count
+
+            return events;
+        } catch (error) {
+            console.error('Error getting event count: ', error);
+            return []; // Handle the error as needed
         }
     }
 

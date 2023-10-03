@@ -18,8 +18,8 @@
     <meta content="https://bigcookie.org" name="twitter:url">
     <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
     <meta content="summary_large_image" name="twitter:card">
-    <link href="css/calendar.css" rel="stylesheet" type="text/css"/>
-    <link href="images/favicon.png" rel="icon"/>
+    <link href="/css/calendar.css" rel="stylesheet" type="text/css"/>
+    <link href="/images/favicon.png" rel="icon"/>
   </head>
 <body>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
@@ -28,7 +28,7 @@
 
   <div class="preloader">
     <div class="loader">
-      <img src="images/favicon.png">
+      <img src="/images/favicon.png">
     </div>
   </div>
 
@@ -67,9 +67,9 @@
     </div>
 </div>
 
-<div id="event-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" id="close-modal">&times;</span>
+<div id="add-event-modal" class="modal">
+    <div class="modal-content" id="display-add-event-modal-content">
+        <span class="close-modal" id="close-event-modal">&times;</span>
         <h2>Add Event</h2>
         <form id="event-form">
             <label for="event-title">Title:</label>
@@ -81,11 +81,21 @@
     </div>
 </div>
 
+<div id="display-event-modal" class="modal">
+  <div class="modal-content" id="display-event-modal-content">
+    <span class="close-modal" id="close-display-modal">&times;</span>
+      <!-- Date and events will be displayed here -->
+  </div>
+</div>
+
 <div id="event-container" class="event-container">
     <h2 id="selected-day"></h2>
     <ul id="event-list"></ul>
 </div>
-    <script src="scripts/calendar.js"></script>
-    <script src="scripts/script.js"></script>
+
+<button class="google-signin" id="google-signin">Sign in</button>
+
+    <script src="/scripts/calendar.js"></script>
+    <script src="/scripts/script.js"></script>
 </body>
 </html>
