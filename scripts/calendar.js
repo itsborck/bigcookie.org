@@ -11,6 +11,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 document.addEventListener('DOMContentLoaded', function () {
     // Get references to DOM elements
@@ -28,15 +29,50 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevMonthButton = document.getElementById('prev-month');
     const nextMonthButton = document.getElementById('next-month');
 
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            
-        }
-    });
+    const googleSignInButton = document.getElementById('google-signin');
+    const signOutButton = document.getElementById('sign-out-button');
 
     // Store the current year and month
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
+
+    googleSignInButton.addEventListener('click', () => {
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+        auth.signInWithPopup(googleProvider)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log('User signed in:', user);
+            })
+            .catch((error) => {
+                console.error('Error signing in:', error);
+            });
+    });
+
+    signOutButton.addEventListener('click', () => {
+        firebase.auth().signOut().then(() => {
+            // Reset UI after sign out
+            document.getElementById('google-signin').style.display = 'block';
+            document.getElementById('sign-out-button').style.display = 'none';
+    
+            window.location.reload();
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            document.getElementById('google-signin').style.display = 'none';
+            document.getElementById('sign-out-button').style.display = 'block';
+            document.getElementById('add-event-button').style.display = 'block';
+        } else {
+            document.getElementById('google-signin').style.display = 'block';
+            document.getElementById('sign-out-button').style.display = 'none';
+            document.getElementById('add-event-button').style.display = 'none';
+        }
+    });
 
     // Event listeners
     addEventButton.addEventListener('click', () => {
@@ -60,19 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     eventForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        const user = firebase.auth().currentUser;
-        if (!user) {
-            alert('You must be logged in to add an event.');
-            return;
-        }
-
-        const userEmail = user.email;
-        const allowedEmail = 'bpavelko624@gmail.com';
-        if (userEmail !== allowedEmail) {
-            alert('You are not authorized to add events to the calendar.');
-            return;
-        }
 
         // Get form values
         const title = eventTitleInput.value.trim();
