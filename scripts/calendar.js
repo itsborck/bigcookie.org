@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         db.collection('events').add({
             title: title,
             date: formattedDate,
+            userName: firebase.auth().currentUser.displayName,
         })
         .then(() => {
             alert('Event added successfully!');
@@ -170,25 +171,24 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayEventsForSelectedDay(selectedDate) {
         const formattedDate = selectedDate.toISOString().split('T')[0];
     
-        db.collection('events')
-            .where('date', '==', formattedDate)
-            .get()
+        db.collection('events').where('date', '==', formattedDate).get()
             .then((querySnapshot) => {
                 const events = [];
+    
                 querySnapshot.forEach((doc) => {
                     const eventData = doc.data();
-                    events.push(eventData.title);
+                    // Add event data to the events array
+                    events.push(eventData);
                 });
-
-                updateCalendarEvents(events);
-                // Display events in the modal
+    
+                // Rest of your code to display events in the modal
                 const modalContent = document.getElementById('display-event-modal-content');
                 modalContent.innerHTML = '';
                 const modalTitle = document.createElement('h2');
                 modalTitle.textContent = selectedDate.toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
-                    day: 'numeric'
+                    day: 'numeric',
                 });
                 modalContent.appendChild(modalTitle);
     
@@ -200,8 +200,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const eventList = document.createElement('ul');
                     events.forEach((event) => {
                         const eventItem = document.createElement('li');
-                        eventItem.textContent = event;
+                        const userNameItem = document.createElement('li');
+                        eventItem.textContent = `${event.title}`;
+                        userNameItem.textContent = `Added by ${event.userName}`;
                         eventList.appendChild(eventItem);
+                        eventList.appendChild(userNameItem);
                     });
                     modalContent.appendChild(eventList);
                 }
@@ -209,34 +212,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch((error) => {
                 console.error('Error getting events: ', error);
             });
-    }
-
-    function updateCalendarEvents(events) {
-        // Clear previous event indicators and titles
-        const dayCells = document.querySelectorAll('.day');
-        dayCells.forEach((dayCell) => {
-            dayCell.classList.remove('day-with-events');
-            const eventIndicator = dayCell.querySelector('.event-count');
-            if (eventIndicator) {
-                eventIndicator.textContent = '';
-            }
-        });
-
-        events.forEach((eventData) => {
-            const eventDate = new Date(eventData.date);
-            const dayNumber = eventDate.getDate();
-            const dayCell = document.querySelector(`.day[data-day="${dayNumber}"]`);
-
-            if (dayCell) {
-                const eventIndicator = document.createElement('span');
-                eventIndicator.classList.add('event-count');
-                eventIndicator.textContent = eventData.title;
-
-                dayCell.classList.add('day-with-events');
-
-                dayCell.appendChild(eventIndicator);
-            }
-        });
     }
 
     // Display events on the calendar
