@@ -183,7 +183,9 @@ header {
   font-size: 24px;
 }
 
-button {
+#prev-month,
+#next-month,
+#add-event-button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -192,14 +194,26 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+#prev-month:hover,
+#next-month:hover,
+#add-event-button:hover {
   background-color: #0056b3;
 }
 
-#auth-buttons button {
+#auth-buttons button{
   position: fixed;
   bottom: 20px;
   left: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#auth-buttons button:hover {
+  background-color: #0056b3;
 }
 
 .calendar-days {
