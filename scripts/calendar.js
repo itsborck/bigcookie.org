@@ -339,9 +339,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const eventData = doc.data();
                 events.push(eventData);
             });
+            return events; // Return the events array
         } catch (error) {
-            console.error('Error getting event count: ', error);
-            return []; // Handle the error as needed
+            console.error('Error getting events: ', error);
+            return []; // Handle the error as needed and return an empty array
         }
     }
 

@@ -185,7 +185,8 @@ header {
 
 #prev-month,
 #next-month,
-#add-event-button {
+#add-event-button,
+#save-event-button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -196,7 +197,8 @@ header {
 
 #prev-month:hover,
 #next-month:hover,
-#add-event-button:hover {
+#add-event-button:hover,
+#save-event-button:hover {
   background-color: #0056b3;
 }
 
