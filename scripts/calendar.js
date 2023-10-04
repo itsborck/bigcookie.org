@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         auth.signInWithPopup(googleProvider)
             .then((userCredential) => {
+                checkUserPermission();
                 const user = userCredential.user;
                 console.log('User signed in:', user);
             })
@@ -62,8 +63,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    function checkUserPermission() {
+        const user = firebase.auth().currentUser;
+        if (user && user.uid === 'JY1cGAur3TN71XyOLqs5fOZYTgD3') {
+            addEventButton.disabled = false;
+        } else {
+            addEventButton.disabled = true;
+            addEventButton.style.display = 'none';
+        }
+    }
+
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+            checkUserPermission();
             document.getElementById('google-signin').style.display = 'none';
             document.getElementById('sign-out-button').style.display = 'block';
             document.getElementById('add-event-button').style.display = 'block';
@@ -92,6 +104,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeDisplayModalButton.addEventListener('click', () => {
         displayEventModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === eventModal) {
+            eventModal.style.display = 'none';
+        } else if (event.target === displayEventModal) {
+            displayEventModal.style.display = 'none';
+        }
     });
 
     eventForm.addEventListener('submit', (e) => {
