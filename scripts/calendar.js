@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const user = firebase.auth().currentUser;
         if (user && user.uid === 'JY1cGAur3TN71XyOLqs5fOZYTgD3') {
             addEventButton.disabled = false;
+            addEventButton.style.display = 'block';
         } else {
             addEventButton.disabled = true;
             addEventButton.style.display = 'none';
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeModalButton.addEventListener('click', () => {
         eventModal.style.display = 'none';
+        displayEventModal.style.display = 'none';
     });
 
     document.addEventListener('keydown', function (event) {
@@ -102,9 +104,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-    closeDisplayModalButton.addEventListener('click', () => {
-        displayEventModal.style.display = 'none';
-    });
+    // closeDisplayModalButton.addEventListener('click', () => {
+    //     displayEventModal.style.display = 'none';
+    // });
 
     window.addEventListener('click', function(event) {
         if (event.target === eventModal) {
@@ -200,9 +202,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     const eventList = document.createElement('ul');
                     events.forEach((event) => {
                         const eventItem = document.createElement('li');
-                        const userNameItem = document.createElement('li');
+                        const userNameItem = document.createElement('span');
                         eventItem.textContent = `${event.title}`;
                         userNameItem.textContent = `Added by ${event.userName}`;
+                        userNameItem.classList.add('user-name');
                         eventList.appendChild(eventItem);
                         eventList.appendChild(userNameItem);
                     });
@@ -252,48 +255,46 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayCell = document.createElement('div');
             dayCell.classList.add('day');
-
+    
         // Check if there are events for this date and add an indicator class
         const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const events = getEventsForDate(formattedDate);
-
+        let events = getEventsForDate(formattedDate);
+    
         // Create the day number text element
         const dayTextSpan = document.createElement('span');
         dayTextSpan.textContent = day;
-
+    
         // Append both spans to the dayCell
         dayCell.appendChild(dayTextSpan);
-
-        if (events.length > 0) {
-            dayCell.classList.add('day-with-events');
-        }
-
+    
         // Fetch events for this date and add them to the day cell
-        if (Array.isArray(events)) {
+        if (events) {
+            if (!Array.isArray(events)) {
+                events = [events];
+            }
             events.forEach((eventData) => {
                 console.log(eventData);
                 const eventTitle = eventData.title;
                 const eventIndicator = document.createElement('span');
-                eventIndicator.classList.add('event-title');
+                eventIndicator.classList.add('event-title-on-calendar');
                 eventIndicator.textContent = eventTitle;
 
                 dayCell.appendChild(eventIndicator);
             });
         }
-        
-
+    
         // Attach click event listener to each day cell
         dayCell.addEventListener('click', () => {
-            const selectedDateElement = document.getElementById('selected-day');
-            const selectedDay = parseInt(dayCell.textContent);
-            if (!isNaN(selectedDay)) {
-                selectedDateElement.textContent = selectedDay;
-                displayEventsForSelectedDay(new Date(year, month, selectedDay));
-                const displayEventModal = document.getElementById('display-event-modal');
-                displayEventModal.style.display = 'block'; // Show the display event modal
-            }
+        const selectedDateElement = document.getElementById('selected-day');
+        const selectedDay = parseInt(dayCell.textContent);
+        if (!isNaN(selectedDay)) {
+            selectedDateElement.textContent = selectedDay;
+            displayEventsForSelectedDay(new Date(year, month, selectedDay));
+            const displayEventModal = document.getElementById('display-event-modal');
+            displayEventModal.style.display = 'block'; // Show the display event modal
+        }
         });
-
+    
         calendarGrid.appendChild(dayCell);
     }
 
@@ -311,6 +312,19 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isNaN(selectedDay)) {
             displayEventsForSelectedDay(new Date(year, month, selectedDay));
         }
+
+        const currentDate = new Date();
+        if (currentDate.getFullYear() === currentYear && currentDate.getMonth() === currentMonth) {
+            const currentDay = currentDate.getDate();
+            const dayCells = calendarGrid.querySelectorAll('.day');
+            dayCells.forEach((dayCell) => {
+                if (dayCell.textContent === String(currentDay)) {
+                    dayCell.classList.add('current-day');
+                } else {
+                    dayCell.classList.remove('current-day');
+                }
+            });
+        }
     }
 
     // Function to get the event count for a given date
@@ -325,10 +339,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const eventData = doc.data();
                 events.push(eventData);
             });
-
-            console.log(`Event count for ${date}:`, events); // Log event count
-
-            return events;
         } catch (error) {
             console.error('Error getting event count: ', error);
             return []; // Handle the error as needed

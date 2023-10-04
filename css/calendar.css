@@ -240,10 +240,19 @@ header {
   color: #999;
 }
 
-.day-with-events {
-  background-color: #ffd700;
-  color: #333;
-  font-weight: bold;
+.user-name {
+  font-size: 12px;
+  color: darkslategray;
+}
+
+.event-title-on-calendar {
+  display: block;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.day-number-with-events {
+color: red;
 }
 
 .event-title {
