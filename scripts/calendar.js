@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedDate = new Date(eventDateInput.value);
         const eventImageInput = document.getElementById('event-image');
         const imageFile = eventImageInput.files[0];
+        const imageUrl = imageFile ? '' : null;
 
         // Check for valid title and date
         if (!title || isNaN(selectedDate) || selectedDate.toString() === 'Invalid Date') {
