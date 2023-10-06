@@ -348,7 +348,7 @@ li {
   margin-bottom: 5px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .navbar a:not(:first-child), .dropdown .dropbtn {
     display: none;
   }
@@ -363,7 +363,7 @@ li {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .navbar.responsive {position: relative;}
   .navbar.responsive a.icon {
     position: absolute;

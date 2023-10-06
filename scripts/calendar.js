@@ -142,8 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
             eventModal.style.display = 'none';
             eventTitleInput.value = '';
             eventDateInput.value = '';
-            // Update the displayed events
-            displayEventsForSelectedDay(selectedDay.textContent);
+
             window.location.reload();
         })
         .catch((error) => {
@@ -267,32 +266,46 @@ document.addEventListener('DOMContentLoaded', function () {
         // Append both spans to the dayCell
         dayCell.appendChild(dayTextSpan);
     
-        // Fetch events for this date and add them to the day cell
-        if (events) {
-            if (!Array.isArray(events)) {
-                events = [events];
-            }
-            events.forEach((eventData) => {
-                console.log(eventData);
-                const eventTitle = eventData.title;
-                const eventIndicator = document.createElement('span');
-                eventIndicator.classList.add('event-title-on-calendar');
-                eventIndicator.textContent = eventTitle;
-
-                dayCell.appendChild(eventIndicator);
-            });
-        }
-    
         // Attach click event listener to each day cell
         dayCell.addEventListener('click', () => {
-        const selectedDateElement = document.getElementById('selected-day');
-        const selectedDay = parseInt(dayCell.textContent);
-        if (!isNaN(selectedDay)) {
-            selectedDateElement.textContent = selectedDay;
-            displayEventsForSelectedDay(new Date(year, month, selectedDay));
-            const displayEventModal = document.getElementById('display-event-modal');
-            displayEventModal.style.display = 'block'; // Show the display event modal
-        }
+            const selectedDateElement = document.getElementById('selected-day');
+            const eventCountElement = document.getElementById('event-count');
+        
+            // Use regular expression to find the first number in dayCell's content
+            const dayCellContent = dayCell.textContent;
+            const selectedDayMatch = dayCellContent.match(/\d{1,2}/);
+            const selectedDay = selectedDayMatch ? parseInt(selectedDayMatch[0]) : NaN;
+        
+            if (!isNaN(selectedDay)) {
+                const selectedDate = new Date(year, month, selectedDay);
+                
+                displayEventsForSelectedDay(selectedDate);
+
+                // Get the event count for the selected date
+                getEventsForDate(selectedDate.toISOString().split('T')[0]).then((events) => {
+                    const eventCount = events.length;
+        
+                    // Update the 'selected-day' element with the day
+                    selectedDateElement.textContent = `${selectedDay}`;
+                });
+        
+                const displayEventModal = document.getElementById('display-event-modal');
+                displayEventModal.style.display = 'block';
+            }
+        });
+
+        getEventsForDate(formattedDate).then((events) => {
+            const eventIndicator = document.createElement('span');
+            eventIndicator.classList.add('event-title-on-calendar');
+        
+            if (events.length === 1) {
+                eventIndicator.textContent = `${events.length} Event`;
+            } else if (events.length > 1) {
+                eventIndicator.textContent = `${events.length} Events`;
+            } else {
+                return;
+            }
+            dayCell.appendChild(eventIndicator);
         });
     
         calendarGrid.appendChild(dayCell);
