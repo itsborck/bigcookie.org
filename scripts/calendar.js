@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: title,
             date: formattedDate,
             userName: firebase.auth().currentUser.displayName,
+            yesNo: document.getElementById('yes-no').checked,
         })
         .then(() => {
             alert('Event added successfully!');
@@ -206,6 +207,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         userNameItem.textContent = `Added by ${event.userName}`;
                         userNameItem.classList.add('user-name');
                         eventList.appendChild(eventItem);
+
+                        const yesNoItem = document.createElement('span');
+                        yesNoItem.textContent = `Does Eli need a ride?: ${event.yesNo ? 'Yes' : 'No'}`;
+                        eventList.appendChild(yesNoItem);
+                        eventList.appendChild(document.createElement('br'));
                         eventList.appendChild(userNameItem);
                     });
                     modalContent.appendChild(eventList);
