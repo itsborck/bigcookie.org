@@ -25,6 +25,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
 
   <div class="preloader">
     <div class="loader">
@@ -91,6 +92,8 @@
             <br>
             <label for="yes-no">Does Eli need a ride?</label>
             <input type="checkbox" id="yes-no" name="yes-no">
+            <br>
+            <input type="file" id="event-image" accept="image/*">
             <br>
             <button id="save-event-button" type="submit">Save</button>
         </form>

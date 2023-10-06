@@ -13,6 +13,9 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+const storage = firebase.storage();
+const storageRef = storage.ref();
+
 document.addEventListener('DOMContentLoaded', function () {
     // Get references to DOM elements
     const calendarGrid = document.getElementById('calendar-grid');
@@ -116,12 +119,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    eventForm.addEventListener('submit', (e) => {
+    eventForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Get form values
         const title = eventTitleInput.value.trim();
         const selectedDate = new Date(eventDateInput.value);
+        const eventImageInput = document.getElementById('event-image');
+        const imageFile = eventImageInput.files[0];
 
         // Check for valid title and date
         if (!title || isNaN(selectedDate) || selectedDate.toString() === 'Invalid Date') {
@@ -132,23 +137,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const formattedDate = selectedDate.toISOString().split('T')[0];
 
         // Add event to Firebase
-        db.collection('events').add({
-            title: title,
-            date: formattedDate,
-            userName: firebase.auth().currentUser.displayName,
-            yesNo: document.getElementById('yes-no').checked,
-        })
-        .then(() => {
+        try {
+            const formattedDate = selectedDate.toISOString().split('T')[0];
+            const eventData = {
+                title: title,
+                date: formattedDate,
+                userName: firebase.auth().currentUser.displayName,
+                yesNo: document.getElementById('yes-no').checked,
+                imageUrl: imageUrl,
+            };
+
+            const eventRef = await db.collection('events').add(eventData);
+
+            if (imageFile) {
+                const imageUrl = await uploadImage(eventRef.id, imageFile);
+                await eventRef.update({ imageUrl: imageUrl });
+            }
+
             alert('Event added successfully!');
             eventModal.style.display = 'none';
             eventTitleInput.value = '';
             eventDateInput.value = '';
-
+            eventImageInput.value = '';
             window.location.reload();
-        })
-        .catch((error) => {
+        } catch (error) {
             console.error('Error adding event: ', error);
-        });
+        }
     });
 
     prevMonthButton.addEventListener('click', () => {
@@ -168,6 +182,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         displayEventsOnCalendar(currentYear, currentMonth);
     });
+
+    function uploadImage(eventId, file) {
+        const eventImageRef = storageRef.child(`event-images/${eventId}/${file.name}`);
+
+        return eventImageRef.put(file)
+            .then((snapshot) => {
+                console.log('Image uploaded successfully:', snapshot);
+                return eventImageRef.getDownloadURL();
+            })
+            .catch((error) => {
+                console.error('Error uploading image:', error);
+            });
+    }
 
     // Display events on the calendar for the selected day
     function displayEventsForSelectedDay(selectedDate) {
@@ -213,6 +240,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         eventList.appendChild(yesNoItem);
                         eventList.appendChild(document.createElement('br'));
                         eventList.appendChild(userNameItem);
+
+                        if (event.imageUrl) {
+                            const imageElement = document.createElement('img');
+                            imageElement.setAttribute('src', event.imageUrl);
+                            imageElement.setAttribute('alt', 'Event image');
+                            eventList.appendChild(imageElement);
+                        }
                     });
                     modalContent.appendChild(eventList);
                 }

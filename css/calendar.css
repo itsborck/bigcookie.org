@@ -349,6 +349,16 @@ li {
   margin-bottom: 5px;
 }
 
+#display-event-modal img {
+  float: right;
+  max-width: 50%;
+  max-height: 50%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 768px) {
   .navbar a:not(:first-child), .dropdown .dropbtn {
     display: none;
@@ -395,5 +405,12 @@ li {
 @media screen and (max-width: 768px) {
   .calendar-grid {
     max-width: none;
+  }
+
+  .calendar-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
   }
 }
