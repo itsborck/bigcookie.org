@@ -1,0 +1,80 @@
+/* Modal container */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+h2 {
+  color: black;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+/* Close button (X) */
+.close {
+  color: black;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Style the file input */
+input[type="file"] {
+  color: black;
+  display: block;
+  margin: 10px auto;
+}
+
+#uploadButton {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #43B581; /* Customize the button color */
+  color: #fff; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#uploadButton:hover {
+  background-color: #359e51; /* Darker color on hover */
+}
+
+/* Style the upload button */
+#uploadButtonModal {
+  background-color: #43B581; /* Customize the button color */
+  color: #fff; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Style the upload button on hover */
+#uploadButtonModal:hover {
+  background-color: #359e51; /* Darker color on hover */
+}

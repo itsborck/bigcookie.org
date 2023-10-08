@@ -19,10 +19,16 @@
   <meta content="https://bigcookie.org/images/cookies/bigcookieOG.jpg" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
   <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/gallery.css" rel="stylesheet" type="text/css">
   <link href="images/favicon.png" rel="icon"/>
 </head>
 
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+
+
   <div class="preloader">
     <div class="loader">
       <img src="images/favicon.png">
@@ -62,43 +68,24 @@
     </nav>
   </header>
 
-  <div class="gallery">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1119766535200849992/20230617_152158.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1104512684524834957/20230506_165700.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1067228836124704788/20230123_150816.jpg">
-    <img src="https://media.discordapp.net/attachments/969779222195363851/1016059652305334302/IMG_3272.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1033161380766945368/bereal-1666395027165.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/997966284803285072/IMG_3005.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1092930711125753987/20230404_120838.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/971839786417545246/Snapchat-1602312780.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1108879971184812032/IMG_5654.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1112163415667003434/IMG_5735.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1098282428906348644/20230419_122128.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1036116022186487858/IMG_3908.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1016059653186146414/IMG_3268.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/995158521471586364/20220708_222056.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/991407387376369724/20220625_182102.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125627337535389696/1456576162_DSCF0002.JPG">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125627599570346035/PXL_20230512_145003369.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125628014361841674/PXL_20230408_003410534.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125628197875220510/PXL_20230118_164000159.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125629447601655868/20220903_205535.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125629914612236328/Snapchat-224423120.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125630390292451348/Snapchat-442708757.jpg">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125631292445298749/IMG_0900.JPG">
-    <img src="https://cdn.discordapp.com/attachments/1125625317197881394/1125631515892662382/IMG_0759.JPG">
-    <img src="https://cdn.discordapp.com/attachments/971495251556569099/1132053067068608612/Snapchat-377147213.jpg">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272020999061584/unknown.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272021435273327/unknown.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272022076981430/unknown.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272022349627472/unknown.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272022823588014/Snapchat-597463811.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272023477878794/IMG_2657.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272024140595250/unknown.png">
-    <img src="https://cdn.discordapp.com/attachments/969779222195363851/1142272024530669674/IMG_3914.png">
+  <div class="gallery" id="imageGallery">
   </div>
+
+  <button id="uploadButton">Upload Image</button>
+
+  <div id="uploadModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Upload Image</h2>
+      <input type="file" id="fileInput" accept="image/*">
+      <button id="uploadButtonModal">Upload</button>
+    </div>
+  </div>
+
+  <button class="google-signin" id="google-signin">Sign in</button>
 
 
   <script src="scripts/script.js"></script>
+  <script src="scripts/gallery.js"></script>
 </body>
 </html>
