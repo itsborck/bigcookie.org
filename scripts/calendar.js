@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const googleSignInButton = document.getElementById('google-signin');
     const signOutButton = document.getElementById('sign-out-button');
 
+    const webhookUrl = 'https://discord.com/api/webhooks/1160738418922356736/MoM-3tEm8OUggG6PF11rD2qGnFSWxwhJYhBP8990Ngdi7b-8eGpzbjCfZJws92rSsjhD'
+
     // Store the current year and month
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
@@ -135,8 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-
         // Add event to Firebase
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
@@ -160,11 +160,58 @@ document.addEventListener('DOMContentLoaded', function () {
             eventTitleInput.value = '';
             eventDateInput.value = '';
             eventImageInput.value = '';
-            window.location.reload();
+
+            const discordMessage = {
+                title: 'New Event Added',
+                description: 'An event has been added to the calendar.',
+                fields: [
+                    {
+                        name: 'Event Title',
+                        value: `${title}`,
+                    },
+                    {
+                        name: 'Date',
+                        value: `${formattedDate}`,
+                    },
+                    {
+                        name: 'Does Eli need a ride?',
+                        value: `${eventData.yesNo ? 'Yes' : 'No'}`,
+                    },
+                ],
+                color: 0x3498db,
+                timestamp: new Date(),
+                thumbnail: {
+                    url: imageUrl,
+                },
+            };
+            sendDiscordWebhook(webhookUrl, discordMessage)
         } catch (error) {
             console.error('Error adding event: ', error);
         }
     });
+
+    function sendDiscordWebhook(webhookUrl, message) {
+        const payload = {
+            embeds: [message],
+        };
+
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            console.log('Webhook message sent successfully.')
+        })
+        .catch((error) => {
+            console.error('Error sending webhook message:', error);
+        });
+    }
 
     prevMonthButton.addEventListener('click', () => {
         currentMonth--;
