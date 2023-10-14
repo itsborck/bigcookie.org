@@ -297,7 +297,6 @@ header {
 .right {
   flex: 1;
   padding-left: 40px;
-  overflow-y: auto;
 }
 
 .left h1,
